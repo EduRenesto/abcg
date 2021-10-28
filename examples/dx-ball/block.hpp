@@ -5,10 +5,13 @@
 
 namespace dxball {
   class Block {
+  public:
     Block(glm::vec2 position, unsigned int max_hits);
 
     [[nodiscard]]
     glm::vec2 get_world_position() const noexcept;
+
+    void increment_hit_count();
 
   private:
     glm::vec2 position;
