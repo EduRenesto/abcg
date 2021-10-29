@@ -7,18 +7,10 @@
 
 #include <glm/glm.hpp>
 
+#include "ball.hpp"
 #include "block.hpp"
 
 namespace dxball {
-  // TODO mover a Ball pra outro arquivo. Tá aqui só pra fast development
-  class Ball {
-  public: 
-    glm::vec2 position;
-    float radius;
-
-    glm::vec2 velocity;
-  };
-
   class QuadTree {
   public:
     virtual void intersects(Ball &ball) = 0;
@@ -26,12 +18,12 @@ namespace dxball {
 
   class QuadTreeLeaf : public QuadTree {
   public:
-    explicit QuadTreeLeaf(std::vector<Block> blocks);
+    explicit QuadTreeLeaf(std::vector<std::shared_ptr<Block>> blocks);
 
     void intersects(Ball &ball) override;
 
   private:
-    std::vector<Block> m_blocks;
+    std::vector<std::shared_ptr<Block>> m_blocks;
   };
 
   class QuadTreeNode : public QuadTree {

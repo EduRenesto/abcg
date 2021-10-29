@@ -3,10 +3,10 @@
 layout(location = 0) in vec2 in_position;
 
 uniform mat3 _scale_matrix;
-uniform vec2 _block_position;
+uniform vec2 _ball_position;
 
 void main() {
-  vec3 indexed_position = vec3(_block_position + in_position, 0);
+  vec3 indexed_position = vec3(_ball_position + in_position, 0);
 
   vec3 scaled = _scale_matrix * indexed_position;
 

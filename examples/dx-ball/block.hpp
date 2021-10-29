@@ -13,11 +13,16 @@ namespace dxball {
 
     void increment_hit_count();
 
+    [[nodiscard]]
+    bool get_is_active() const noexcept;
+
   private:
     glm::vec2 position;
 
     unsigned int max_hits;
     unsigned int current_hits{0};
+
+    bool is_active{true};
   };
 }
 
