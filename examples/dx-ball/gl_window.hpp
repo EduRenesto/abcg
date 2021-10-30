@@ -28,9 +28,12 @@ namespace dxball {
 
     std::chrono::time_point<std::chrono::steady_clock> m_last_frame;
 
+    glm::mat4 m_projection_matrix;
+
     std::optional<BlockRenderer> m_block_renderer = std::nullopt;
     std::optional<BallRenderer> m_ball_renderer = std::nullopt;
     std::optional<PaddleRenderer> m_paddle_renderer = std::nullopt;
+
     World m_world;
   };
 }

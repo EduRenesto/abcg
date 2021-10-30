@@ -2,13 +2,11 @@
 
 layout(location = 0) in vec2 in_position;
 
-uniform mat3 _scale_matrix;
 uniform vec2 _ball_position;
+uniform mat4 _projection_matrix;
 
 void main() {
   vec3 indexed_position = vec3(_ball_position + in_position, 0);
 
-  vec3 scaled = _scale_matrix * indexed_position;
-
-  gl_Position = vec4(scaled.xy, 0.0, 1.0);
+  gl_Position = _projection_matrix * vec4(indexed_position.xyz, 1.0);
 }

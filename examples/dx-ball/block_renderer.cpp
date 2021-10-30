@@ -22,7 +22,10 @@ dxball::BlockRenderer::BlockRenderer(GLuint shader, float width, float height) {
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
-void dxball::BlockRenderer::render(const Block& block) const noexcept {
+void dxball::BlockRenderer::render(
+  const Block& block,
+  glm::mat4 &projection_matrix
+) const noexcept {
   if (!block.get_is_active()) return;
 
   glUseProgram(this->m_block_shader);
@@ -32,6 +35,9 @@ void dxball::BlockRenderer::render(const Block& block) const noexcept {
      glm::mat3{1.0},
      block.get_world_position()
   );
+
+  const auto projection_location = glGetUniformLocation(this->m_block_shader, "_projection_matrix");
+  glUniformMatrix4fv(projection_location, 1, GL_FALSE, &projection_matrix[0][0]);
 
   const auto scale_location = glGetUniformLocation(this->m_block_shader, "_scale_matrix");
   glUniformMatrix3fv(scale_location, 1, GL_FALSE, &this->m_block_scale[0][0]);

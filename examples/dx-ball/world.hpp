@@ -14,6 +14,7 @@ namespace dxball {
     World();
 
     void render(
+      glm::mat4 &projection_matrix,
       BlockRenderer &block_renderer,
       BallRenderer &ball_renderer,
       PaddleRenderer &paddle_renderer

@@ -12,7 +12,7 @@ namespace dxball {
   public: 
     BlockRenderer(GLuint shader, float block_width, float block_height);
 
-    void render(const Block& block) const noexcept;
+    void render(const Block& block, glm::mat4 &projection_matrix) const noexcept;
 
   private:
     GLuint m_block_vbo{};
@@ -23,12 +23,12 @@ namespace dxball {
     glm::mat3 m_block_scale{};
 
     constexpr static const std::array<glm::vec2, 6> m_block_vertices = {
-      glm::vec2(0.49, 0.49),
-      glm::vec2(-0.49, 0.49),
-      glm::vec2(-0.49, -0.49),
-      glm::vec2(-0.49, -0.49),
-      glm::vec2(0.49, -0.49),
-      glm::vec2(0.49, 0.49),
+      glm::vec2(1.0, 1.0),
+      glm::vec2(-1.0, 1.0),
+      glm::vec2(-1.0, -1.0),
+      glm::vec2(-1.0, -1.0),
+      glm::vec2(1.0, -1.0),
+      glm::vec2(1.0, 1.0),
     };
   };
 }

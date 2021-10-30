@@ -10,9 +10,9 @@
 namespace dxball {
   class PaddleRenderer {
   public:
-    PaddleRenderer(GLuint shader, float width, float height);
+    explicit PaddleRenderer(GLuint shader);
 
-    void render(Paddle& paddle) const;
+    void render(Paddle& paddle, glm::mat4 &projection_matrix) const;
 
   private:
     GLuint m_paddle_vbo{};
@@ -23,12 +23,12 @@ namespace dxball {
     glm::mat3 m_block_scale{};
 
     constexpr static const std::array<glm::vec2, 6> m_paddle_vertices = {
-      glm::vec2(1.0, 0.1),
-      glm::vec2(-1.0, 0.1),
-      glm::vec2(-1.0, -0.1),
-      glm::vec2(-1.0, -0.1),
-      glm::vec2(1.0, -0.1),
-      glm::vec2(1.0, 0.1),
+      glm::vec2(1.0, 1.0),
+      glm::vec2(-1.0, 1.0),
+      glm::vec2(-1.0, -1.0),
+      glm::vec2(-1.0, -1.0),
+      glm::vec2(1.0, -1.0),
+      glm::vec2(1.0, 1.0),
     };
   };
 }
