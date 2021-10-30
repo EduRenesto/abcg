@@ -33,6 +33,8 @@ void glball::GLWindow::initializeGL() {
   glBlendEquation(GL_FUNC_ADD);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+  glEnable(GL_PROGRAM_POINT_SIZE);
+
   // I stole the colors from the Solarized Light pallete. :)
   glClearColor(0.93333333, 0.90980392, 0.83529412, 1.0);
 

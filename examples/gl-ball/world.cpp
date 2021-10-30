@@ -7,10 +7,8 @@ glball::World::World(glm::vec2 bottom_left, glm::vec2 top_right) {
   this->m_bottom_left = bottom_left;
   this->m_top_right = top_right;
 
-  // TODO make this parametrizable
-
-  for (int u = -3; u <= 3; u++) {
-    for (int v = 0; v <= 3; v++) {
+  for (int u = -4; u <= 4; u++) {
+    for (int v = 0; v <= 4; v++) {
       auto position = glm::vec2{(float) u, (float) v};
       auto block = std::make_shared<Block>(position, 3);
 
@@ -24,7 +22,7 @@ glball::World::World(glm::vec2 bottom_left, glm::vec2 top_right) {
 
   this->m_ball = std::optional(Ball{glm::vec2{0.0, -2.0}, 0.1, glm::normalize(initial_velocity)});
 
-  this->m_paddle = std::optional(Paddle{glm::vec2{0.0, -3.0}, 0.7, 0.1});
+  this->m_paddle = std::optional(Paddle{glm::vec2{0.0, -5.0}, 1.0, 0.1});
 }
 
 void glball::World::render(
@@ -69,8 +67,6 @@ void glball::World::update(float delta) {
     const auto new_velocity = glm::reflect(this->m_ball.value().get_velocity(), normal);
     this->m_ball.value().set_velocity(new_velocity);
 
-    std::cout << "hit western wall" << std::endl;
-
     return;
   }
 
@@ -79,8 +75,6 @@ void glball::World::update(float delta) {
     const auto normal = glm::vec2{-1.0, 0.0};
     const auto new_velocity = glm::reflect(this->m_ball.value().get_velocity(), normal);
     this->m_ball.value().set_velocity(new_velocity);
-
-    std::cout << "hit eastern wall" << std::endl;
 
     return;
   }
@@ -91,16 +85,12 @@ void glball::World::update(float delta) {
     const auto new_velocity = glm::reflect(this->m_ball.value().get_velocity(), normal);
     this->m_ball.value().set_velocity(new_velocity);
 
-    std::cout << "hit northern wall" << std::endl;
-
     return;
   }
 
   // Southern wall
   if (ball_position.y < this->m_bottom_left.y + ball_radius) {
     this->m_state = GameState::FAIL;
-
-    std::cout << "hit southern wall" << std::endl;
 
     return;
   }

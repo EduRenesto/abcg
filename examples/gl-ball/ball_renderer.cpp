@@ -23,10 +23,6 @@ void glball::BallRenderer::render(
   Ball& ball,
   glm::mat4 &projection_matrix
 ) const noexcept {
-  //std::cout << "BallRenderer::render" << std::endl;
-  //std::cout << "position: " << glm::to_string(ball.get_position()) << std::endl;
-  //std::cout << "velocity: " << glm::to_string(ball.get_velocity()) << std::endl;
-
   glUseProgram(this->m_ball_shader);
   glBindVertexArray(this->m_ball_vao);
 
@@ -36,7 +32,10 @@ void glball::BallRenderer::render(
   const auto position_location = glGetUniformLocation(this->m_ball_shader, "_ball_position");
   glUniform2fv(position_location, 1, &ball.get_position()[0]);
 
+  const auto point_size_location = glGetUniformLocation(this->m_ball_shader, "_point_size");
+  glUniform1f(point_size_location, ball.get_radius() * 200);
+
   glBindVertexArray(this->m_ball_vao);
-  glPointSize(ball.get_radius() * 200);
+  //glPointSize(ball.get_radius() * 200);
   glDrawArrays(GL_POINTS, 0, 1);
 }
