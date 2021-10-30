@@ -69,7 +69,7 @@ void glball::QuadTreeLeaf::intersects(glball::Ball &ball) {
 	ball_position.x >= block_center.x + 0.5 &&
 	ball_position.x <= block_center.x + 0.5 + ball_radius
     ) {
-      const auto normal = glm::vec2(0.0, 1.0);
+      const auto normal = glm::vec2(1.0, 0.0);
       const auto new_velocity = glm::reflect(ball_velocity, normal);
 
       ball.set_velocity(new_velocity);
@@ -86,7 +86,7 @@ void glball::QuadTreeLeaf::intersects(glball::Ball &ball) {
 	ball_position.x <= block_center.x - 0.5 &&
 	ball_position.x >= block_center.x - 0.5 - ball_radius
     ) {
-      const auto normal = glm::vec2(0.0, -1.0);
+      const auto normal = glm::vec2(-1.0, 0.0);
       const auto new_velocity = glm::reflect(ball_velocity, normal);
 
       ball.set_velocity(new_velocity);
