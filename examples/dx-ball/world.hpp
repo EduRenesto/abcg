@@ -11,7 +11,7 @@
 namespace dxball {
   class World {
   public:
-    World();
+    World(glm::vec2 bottom_left, glm::vec2 top_right);
 
     void render(
       glm::mat4 &projection_matrix,
@@ -23,6 +23,9 @@ namespace dxball {
     void update(float delta);
 
   private:
+    glm::vec2 m_bottom_left;
+    glm::vec2 m_top_right;
+
     std::optional<Ball> m_ball = std::nullopt;
 
     std::optional<Paddle> m_paddle = std::nullopt;

@@ -34,7 +34,7 @@ namespace dxball {
     std::optional<BallRenderer> m_ball_renderer = std::nullopt;
     std::optional<PaddleRenderer> m_paddle_renderer = std::nullopt;
 
-    World m_world;
+    std::optional<World> m_world = std::nullopt;
   };
 }
 

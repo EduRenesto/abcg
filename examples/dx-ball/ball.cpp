@@ -22,10 +22,10 @@ float & dxball::Ball::get_radius() {
 }
 
 void dxball::Ball::set_velocity(glm::vec2 velocity) {
-  std::cout << "Ball::set_velocity " << glm::to_string(velocity) << std::endl;
+  //std::cout << "Ball::set_velocity " << glm::to_string(velocity) << std::endl;
   this->velocity = velocity;
 }
 
 void dxball::Ball::update(float delta) {
-  this->position += this->velocity * delta;
+  this->position += this->velocity * delta * 3.0f;
 }

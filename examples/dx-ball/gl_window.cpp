@@ -18,7 +18,10 @@ dxball::GLWindow::GLWindow() {
     world_space_half_height
   );
 
-  this->m_world = World{};
+  this->m_world = std::optional{World{
+    glm::vec2{-world_space_half_width, -world_space_half_height},
+    glm::vec2{world_space_half_width, world_space_half_height}
+  }};
   this->m_last_frame = std::chrono::steady_clock::now();
 }
 
@@ -77,7 +80,7 @@ void dxball::GLWindow::terminateGL() {
 }
 
 void dxball::GLWindow::render() {
-  this->m_world.render(
+  this->m_world.value().render(
     this->m_projection_matrix,
     this->m_block_renderer.value(),
     this->m_ball_renderer.value(),
@@ -86,5 +89,5 @@ void dxball::GLWindow::render() {
 }
 
 void dxball::GLWindow::update(float delta) {
-  this->m_world.update(delta);
+  this->m_world.value().update(delta);
 }

@@ -23,10 +23,10 @@ void dxball::Paddle::intersect(Ball &ball) const {
   const auto ball_position = ball.get_position();
 
   if (
-    ball_position.x >= this->m_position.x - this->m_width / 2.0 &&
-    ball_position.x <= this->m_position.x + this->m_width / 2.0 &&
-    ball_position.y >= this->m_position.y + this->m_height / 2.0 &&
-    ball_position.y <= this->m_position.y + this->m_height / 2.0 + ball.get_radius()
+    ball_position.x >= this->m_position.x - this->m_width &&
+    ball_position.x <= this->m_position.x + this->m_width &&
+    ball_position.y >= this->m_position.y + this->m_height &&
+    ball_position.y <= this->m_position.y + this->m_height + ball.get_radius()
   ) {
     const auto normal = glm::vec2(0.0, 1.0);
     const auto new_velocity = glm::reflect(ball.get_velocity(), normal);
