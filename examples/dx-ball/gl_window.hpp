@@ -8,6 +8,7 @@
 #include "abcg_openglwindow.hpp"
 #include "block_renderer.hpp"
 #include "ball_renderer.hpp"
+#include "paddle_renderer.hpp"
 #include "world.hpp"
 
 namespace dxball {
@@ -29,6 +30,7 @@ namespace dxball {
 
     std::optional<BlockRenderer> m_block_renderer = std::nullopt;
     std::optional<BallRenderer> m_ball_renderer = std::nullopt;
+    std::optional<PaddleRenderer> m_paddle_renderer = std::nullopt;
     World m_world;
   };
 }

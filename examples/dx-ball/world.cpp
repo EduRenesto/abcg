@@ -18,19 +18,29 @@ dxball::World::World() {
 
   auto initial_velocity = glm::vec2{0.2, 1.0};
 
-  this->m_ball = std::optional(Ball{glm::vec2{0.0, -5.0}, 0.5, glm::normalize(initial_velocity)});
+  this->m_ball = std::optional(Ball{glm::vec2{0.0, -2.0}, 0.5, glm::normalize(initial_velocity)});
+
+  this->m_paddle = std::optional(Paddle{glm::vec2{0.0, -3.0}, 1.0, 0.05});
 }
 
-void dxball::World::render(dxball::BlockRenderer &renderer, dxball::BallRenderer &ball_renderer) {
+void dxball::World::render(
+  dxball::BlockRenderer &renderer,
+  dxball::BallRenderer &ball_renderer,
+  dxball::PaddleRenderer &paddle_renderer
+) {
   for (auto& block : this->m_blocks) {
     renderer.render(*block);
   }
 
   ball_renderer.render(this->m_ball.value());
+
+  paddle_renderer.render(this->m_paddle.value());
 }
 
 void dxball::World::update(float delta) {
   this->m_ball.value().update(delta);
+
+  this->m_paddle.value().intersect(this->m_ball.value());
 
   this->m_root_node->intersects(this->m_ball.value());
 }

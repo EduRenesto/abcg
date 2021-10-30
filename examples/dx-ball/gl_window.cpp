@@ -25,6 +25,11 @@ void dxball::GLWindow::initializeGL() {
     getAssetsPath() + "shaders/ball.fs.glsl"
   );
 
+  auto paddle_shader = createProgramFromFile(
+    getAssetsPath() + "shaders/paddle.vs.glsl",
+    getAssetsPath() + "shaders/paddle.fs.glsl"
+  );
+
   const auto aspect = 16.0f/9.0f;
 
   this->m_block_renderer = std::optional{
@@ -33,6 +38,10 @@ void dxball::GLWindow::initializeGL() {
 
   this->m_ball_renderer = std::optional{
     BallRenderer{ball_shader, 0.1, 0.1}
+  };
+
+  this->m_paddle_renderer = std::optional{
+    PaddleRenderer{paddle_shader, 0.1, 0.1}
   };
 }
 
@@ -57,7 +66,8 @@ void dxball::GLWindow::terminateGL() {
 void dxball::GLWindow::render() {
   this->m_world.render(
     this->m_block_renderer.value(),
-    this->m_ball_renderer.value()
+    this->m_ball_renderer.value(),
+    this->m_paddle_renderer.value()
   );
 }
 
