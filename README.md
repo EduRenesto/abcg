@@ -13,7 +13,7 @@ This repository also includes my (Eduardo's) modifications to the
 Currently, you can find the following projects in the `examples` folder:
 
 - *GL-Ball*: A simple Arkanoid clone, with some influences from the
-  `DX-Ball` DOS game and the `One More Brick` mobile game. [live demo](https://renesto.space/courses/cg/gl-ball.html) [report](./reports/a1.gl-ball.pdf)
+  `DX-Ball` DOS game and the `One More Brick` mobile game. [live demo](https://renesto.netlify.app/courses/cg/gl-ball) [report](./reports/a1.gl-ball.pdf)
   
 ### Reports
 
