@@ -1,6 +1,7 @@
 #include "gl_window.hpp"
 #include <chrono>
 #include <glm/ext/matrix_clip_space.hpp>
+#include "SDL_events.h"
 #include "abcg_openglwindow.hpp"
 
 dxball::GLWindow::GLWindow() {
@@ -90,4 +91,22 @@ void dxball::GLWindow::render() {
 
 void dxball::GLWindow::update(float delta) {
   this->m_world.value().update(delta);
+}
+
+
+void dxball::GLWindow::handleEvent(SDL_Event &event) {
+  if (event.type == SDL_KEYUP) {
+    this->m_world.value().handle_event(InputEvent::NONE);
+  } else if (event.type == SDL_KEYDOWN) {
+    switch (event.key.keysym.sym) {
+    case SDLK_LEFT:
+    case SDLK_h:
+      this->m_world.value().handle_event(InputEvent::LEFT);
+      break;
+    case SDLK_RIGHT:
+    case SDLK_l:
+      this->m_world.value().handle_event(InputEvent::RIGHT);
+      break;
+    }
+  }
 }

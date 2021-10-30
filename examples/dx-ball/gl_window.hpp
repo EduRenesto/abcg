@@ -4,6 +4,7 @@
 #include <chrono>
 #include <optional>
 
+#include "SDL_events.h"
 #include "abcg.hpp"
 #include "abcg_openglwindow.hpp"
 #include "block_renderer.hpp"
@@ -18,9 +19,12 @@ namespace dxball {
 
   protected:
     void initializeGL() override;
+    void terminateGL() override;
 
     void paintGL() override;
-    void terminateGL() override;
+    void paintUI() override;
+
+    void handleEvent(SDL_Event &event) override;
 
   private:
     void render();

@@ -20,11 +20,11 @@ dxball::World::World(glm::vec2 bottom_left, glm::vec2 top_right) {
 
   this->m_root_node = std::make_unique<QuadTreeLeaf>(this->m_blocks);
 
-  auto initial_velocity = glm::vec2{0.5, 1.0};
+  auto initial_velocity = glm::vec2{0.0, 1.0};
 
   this->m_ball = std::optional(Ball{glm::vec2{0.0, -2.0}, 0.1, glm::normalize(initial_velocity)});
 
-  this->m_paddle = std::optional(Paddle{glm::vec2{0.0, -3.0}, 4.0, 0.1});
+  this->m_paddle = std::optional(Paddle{glm::vec2{0.0, -3.0}, 0.7, 0.1});
 }
 
 void dxball::World::render(
@@ -33,6 +33,8 @@ void dxball::World::render(
   dxball::BallRenderer &ball_renderer,
   dxball::PaddleRenderer &paddle_renderer
 ) {
+  if (this->m_state != GameState::PLAYING) return;
+
   for (auto& block : this->m_blocks) {
     renderer.render(*block, projection_matrix);
   }
@@ -43,8 +45,11 @@ void dxball::World::render(
 }
 
 void dxball::World::update(float delta) {
+  if (this->m_state != GameState::PLAYING) return;
+
   this->m_ball.value().update(delta);
 
+  this->m_paddle.value().move(this->m_current_paddle_speed * delta);
   this->m_paddle.value().intersect(this->m_ball.value());
 
   this->m_root_node->intersects(this->m_ball.value());
@@ -89,13 +94,29 @@ void dxball::World::update(float delta) {
 
   // Southern wall
   if (ball_position.y < this->m_bottom_left.y + ball_radius) {
-    // TODO game over!
-    const auto normal = glm::vec2{0.0, 1.0};
-    const auto new_velocity = glm::reflect(this->m_ball.value().get_velocity(), normal);
-    this->m_ball.value().set_velocity(new_velocity);
+    this->m_state = GameState::FAIL;
 
     std::cout << "hit southern wall" << std::endl;
 
     return;
+  }
+
+  // Check if the user won the game
+  if (!this->m_root_node->has_blocks_left()) {
+    this->m_state = GameState::SUCCESS;
+  }
+}
+
+void dxball::World::handle_event(InputEvent evt) {
+  switch (evt) {
+  case InputEvent::NONE:
+    this->m_current_paddle_speed = 0.0;
+    break;
+  case InputEvent::LEFT:
+    this->m_current_paddle_speed = -this->m_paddle_speed;
+    break;
+  case InputEvent::RIGHT:
+    this->m_current_paddle_speed = this->m_paddle_speed;
+    break;
   }
 }

@@ -1,6 +1,7 @@
 #include "quad_tree.hpp"
 #include <glm/geometric.hpp>
 #include <optional>
+#include <algorithm>
 
 dxball::QuadTreeLeaf::QuadTreeLeaf(std::vector<std::shared_ptr<Block>> blocks) {
   this->m_blocks = std::move(blocks);
@@ -97,6 +98,14 @@ void dxball::QuadTreeLeaf::intersects(dxball::Ball &ball) {
   }
 }
 
+bool dxball::QuadTreeLeaf::has_blocks_left() {
+  return std::find_if(
+    std::begin(this->m_blocks),
+    std::end(this->m_blocks),
+    [](auto& block) { return block->get_is_active(); }
+  ) != std::end(this->m_blocks);
+}
+
 void dxball::QuadTreeNode::intersects(dxball::Ball &ball) {
   // The idea here is that we do the fewest possible intersection
   // tests. Here, we check in which subplane the ball is, and only
@@ -149,4 +158,12 @@ void dxball::QuadTreeNode::intersects(dxball::Ball &ball) {
     this->m_bot_right->intersects(ball);
     return;
   }
+}
+
+bool dxball::QuadTreeNode::has_blocks_left() {
+  return
+    this->m_top_left->has_blocks_left() ||
+    this->m_top_right->has_blocks_left() ||
+    this->m_bot_left->has_blocks_left() ||
+    this->m_bot_right->has_blocks_left();
 }
