@@ -6,7 +6,7 @@
 #include <glm/ext.hpp>
 #include <iostream>
 
-dxball::BlockRenderer::BlockRenderer(GLuint shader, float width, float height) {
+glball::BlockRenderer::BlockRenderer(GLuint shader, float width, float height) {
   this->m_block_shader = shader;
 
   const auto vec = glm::vec2(width, height);
@@ -22,7 +22,7 @@ dxball::BlockRenderer::BlockRenderer(GLuint shader, float width, float height) {
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
-void dxball::BlockRenderer::render(
+void glball::BlockRenderer::render(
   const Block& block,
   glm::mat4 &projection_matrix
 ) const noexcept {

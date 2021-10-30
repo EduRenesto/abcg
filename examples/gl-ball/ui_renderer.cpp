@@ -1,13 +1,13 @@
 #include "ui_renderer.hpp"
 #include <imgui.h>
 
-dxball::UIRenderer::UIRenderer(ImFont *font, int width, int height) {
+glball::UIRenderer::UIRenderer(ImFont *font, int width, int height) {
   this->m_font = font;
   this->m_width = (float) width;
   this->m_height = (float) height;
 }
 
-void dxball::UIRenderer::render(dxball::GameState state) {
+void glball::UIRenderer::render(glball::GameState state) {
   if (state == GameState::PLAYING) return;
 
   const auto size{ImVec2(300, 85)};

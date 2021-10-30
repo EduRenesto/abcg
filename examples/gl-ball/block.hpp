@@ -1,9 +1,9 @@
-#ifndef __DXBALL_BLOCK_HPP
-#define __DXBALL_BLOCK_HPP
+#ifndef __GLBALL_BLOCK_HPP
+#define __GLBALL_BLOCK_HPP
 
 #include <glm/glm.hpp>
 
-namespace dxball {
+namespace glball {
   class Block {
   public:
     Block(glm::vec2 position, unsigned int max_hits);

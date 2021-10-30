@@ -3,7 +3,7 @@
 #include <memory>
 #include <iostream>
 
-dxball::World::World(glm::vec2 bottom_left, glm::vec2 top_right) {
+glball::World::World(glm::vec2 bottom_left, glm::vec2 top_right) {
   this->m_bottom_left = bottom_left;
   this->m_top_right = top_right;
 
@@ -27,11 +27,11 @@ dxball::World::World(glm::vec2 bottom_left, glm::vec2 top_right) {
   this->m_paddle = std::optional(Paddle{glm::vec2{0.0, -3.0}, 0.7, 0.1});
 }
 
-void dxball::World::render(
+void glball::World::render(
   glm::mat4 &projection_matrix,
-  dxball::BlockRenderer &renderer,
-  dxball::BallRenderer &ball_renderer,
-  dxball::PaddleRenderer &paddle_renderer
+  glball::BlockRenderer &renderer,
+  glball::BallRenderer &ball_renderer,
+  glball::PaddleRenderer &paddle_renderer
 ) {
   if (this->m_state != GameState::PLAYING) return;
 
@@ -44,11 +44,11 @@ void dxball::World::render(
   paddle_renderer.render(this->m_paddle.value(), projection_matrix);
 }
 
-void dxball::World::renderUI(dxball::UIRenderer &ui_renderer) {
+void glball::World::renderUI(glball::UIRenderer &ui_renderer) {
   ui_renderer.render(this->m_state);
 }
 
-void dxball::World::update(float delta) {
+void glball::World::update(float delta) {
   if (this->m_state != GameState::PLAYING) return;
 
   this->m_ball.value().update(delta);
@@ -111,7 +111,7 @@ void dxball::World::update(float delta) {
   }
 }
 
-void dxball::World::handle_event(InputEvent evt) {
+void glball::World::handle_event(InputEvent evt) {
   switch (evt) {
   case InputEvent::NONE:
     this->m_current_paddle_speed = 0.0;

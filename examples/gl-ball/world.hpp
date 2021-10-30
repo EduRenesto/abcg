@@ -1,5 +1,5 @@
-#ifndef __DXBALL_WORLD_HPP
-#define __DXBALL_WORLD_HPP
+#ifndef __GLBALL_WORLD_HPP
+#define __GLBALL_WORLD_HPP
 
 #include <optional>
 
@@ -10,7 +10,7 @@
 #include "paddle_renderer.hpp"
 #include "quad_tree.hpp"
 
-namespace dxball {
+namespace glball {
   enum InputEvent {
     NONE,
     LEFT,

@@ -6,7 +6,7 @@
 #include <glm/gtx/string_cast.hpp>
 #include <iostream>
 
-dxball::BallRenderer::BallRenderer(GLuint shader) {
+glball::BallRenderer::BallRenderer(GLuint shader) {
   this->m_ball_shader = shader;
 
   glGenBuffers(1, &this->m_ball_vbo);
@@ -19,7 +19,7 @@ dxball::BallRenderer::BallRenderer(GLuint shader) {
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
-void dxball::BallRenderer::render(
+void glball::BallRenderer::render(
   Ball& ball,
   glm::mat4 &projection_matrix
 ) const noexcept {

@@ -1,9 +1,9 @@
-#ifndef __DXBALL_BALL_HPP
-#define __DXBALL_BALL_HPP
+#ifndef __GLBALL_BALL_HPP
+#define __GLBALL_BALL_HPP
 
 #include <glm/glm.hpp>
 
-namespace dxball {
+namespace glball {
   class Ball {
   public: 
     Ball(glm::vec2 initial_position, float radius, glm::vec2 initial_velocity);

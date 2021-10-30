@@ -3,11 +3,11 @@
 #include <optional>
 #include <algorithm>
 
-dxball::QuadTreeLeaf::QuadTreeLeaf(std::vector<std::shared_ptr<Block>> blocks) {
+glball::QuadTreeLeaf::QuadTreeLeaf(std::vector<std::shared_ptr<Block>> blocks) {
   this->m_blocks = std::move(blocks);
 }
 
-void dxball::QuadTreeLeaf::intersects(dxball::Ball &ball) {
+void glball::QuadTreeLeaf::intersects(glball::Ball &ball) {
   for (auto& block : this->m_blocks) {
     if (!block->get_is_active()) continue;
 
@@ -98,7 +98,7 @@ void dxball::QuadTreeLeaf::intersects(dxball::Ball &ball) {
   }
 }
 
-bool dxball::QuadTreeLeaf::has_blocks_left() {
+bool glball::QuadTreeLeaf::has_blocks_left() {
   return std::find_if(
     std::begin(this->m_blocks),
     std::end(this->m_blocks),
@@ -106,7 +106,7 @@ bool dxball::QuadTreeLeaf::has_blocks_left() {
   ) != std::end(this->m_blocks);
 }
 
-void dxball::QuadTreeNode::intersects(dxball::Ball &ball) {
+void glball::QuadTreeNode::intersects(glball::Ball &ball) {
   // The idea here is that we do the fewest possible intersection
   // tests. Here, we check in which subplane the ball is, and only
   // test for intersections inside that subplane by recursing into it.
@@ -160,7 +160,7 @@ void dxball::QuadTreeNode::intersects(dxball::Ball &ball) {
   }
 }
 
-bool dxball::QuadTreeNode::has_blocks_left() {
+bool glball::QuadTreeNode::has_blocks_left() {
   return
     this->m_top_left->has_blocks_left() ||
     this->m_top_right->has_blocks_left() ||

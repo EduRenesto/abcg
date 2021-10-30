@@ -1,5 +1,5 @@
-#ifndef __DXBALL_BLOCK_RENDERER_HPP
-#define __DXBALL_BLOCK_RENDERER_HPP
+#ifndef __GLBALL_BLOCK_RENDERER_HPP
+#define __GLBALL_BLOCK_RENDERER_HPP
 
 #include <GL/glew.h>
 #include <array>
@@ -7,7 +7,7 @@
 
 #include "block.hpp"
 
-namespace dxball {
+namespace glball {
   class BlockRenderer {
   public: 
     BlockRenderer(GLuint shader, float block_width, float block_height);

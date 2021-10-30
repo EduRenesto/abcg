@@ -1,5 +1,5 @@
-#ifndef __DXBALL_QUAD_TREE_HPP
-#define __DXBALL_QUAD_TREE_HPP
+#ifndef __GLBALL_QUAD_TREE_HPP
+#define __GLBALL_QUAD_TREE_HPP
 
 #include <memory>
 #include <vector>
@@ -31,7 +31,7 @@
 // So, professor, feel free to skip the `QuadTree` and `QuadTreeNode` classes completely
 // and only focus on the `QuadTreeLeaf` class.
 
-namespace dxball {
+namespace glball {
   class QuadTree {
   public:
     virtual void intersects(Ball &ball) = 0;

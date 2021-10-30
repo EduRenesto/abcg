@@ -1,12 +1,12 @@
-#ifndef __DXBALL_BALL_RENDERER_HPP
-#define __DXBALL_BALL_RENDERER_HPP
+#ifndef __GLBALL_BALL_RENDERER_HPP
+#define __GLBALL_BALL_RENDERER_HPP
 
 #include <GL/glew.h>
 #include <array>
 
 #include "ball.hpp"
 
-namespace dxball {
+namespace glball {
   class BallRenderer {
   public:
     explicit BallRenderer(GLuint shader);

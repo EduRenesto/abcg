@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
   try {
     abcg::Application app(argc, argv);
 
-    auto window{std::make_unique<dxball::GLWindow>()};
+    auto window{std::make_unique<glball::GLWindow>()};
 
     window->setWindowSettings({
 	.width = 1280,

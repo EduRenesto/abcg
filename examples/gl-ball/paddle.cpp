@@ -4,25 +4,25 @@
 #include <glm/geometric.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 
-dxball::Paddle::Paddle(glm::vec2 initial_pos, float width, float height) {
+glball::Paddle::Paddle(glm::vec2 initial_pos, float width, float height) {
   this->m_position = initial_pos;
   this->m_width = width;
   this->m_height = height;
 }
 
-void dxball::Paddle::move(float amount) {
+void glball::Paddle::move(float amount) {
   this->m_position += glm::vec2{amount, 0.0};
 }
 
-glm::vec2 dxball::Paddle::get_scale() const noexcept {
+glm::vec2 glball::Paddle::get_scale() const noexcept {
   return glm::vec2{this->m_width, this->m_height};
 }
 
-glm::vec2 dxball::Paddle::get_world_position() const noexcept {
+glm::vec2 glball::Paddle::get_world_position() const noexcept {
   return this->m_position;
 }
 
-void dxball::Paddle::intersect(Ball &ball) const {
+void glball::Paddle::intersect(Ball &ball) const {
   const auto ball_position = ball.get_position();
 
   if (

@@ -1,7 +1,7 @@
 #include "paddle_renderer.hpp"
 #include <glm/gtx/matrix_transform_2d.hpp>
 
-dxball::PaddleRenderer::PaddleRenderer(GLuint shader) {
+glball::PaddleRenderer::PaddleRenderer(GLuint shader) {
   this->m_paddle_shader = shader;
 
   glGenBuffers(1, &this->m_paddle_vbo);
@@ -14,7 +14,7 @@ dxball::PaddleRenderer::PaddleRenderer(GLuint shader) {
   glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
-void dxball::PaddleRenderer::render(
+void glball::PaddleRenderer::render(
   Paddle& paddle,
   glm::mat4 &projection_matrix
 ) const {

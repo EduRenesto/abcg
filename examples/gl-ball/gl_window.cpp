@@ -6,7 +6,7 @@
 #include "abcg_openglwindow.hpp"
 #include "imgui.h"
 
-dxball::GLWindow::GLWindow() {
+glball::GLWindow::GLWindow() {
   const auto window_settings = this->getWindowSettings();
 
   const auto aspect = (float) window_settings.width / (float) window_settings.height;
@@ -28,7 +28,7 @@ dxball::GLWindow::GLWindow() {
   this->m_last_frame = std::chrono::steady_clock::now();
 }
 
-void dxball::GLWindow::initializeGL() {
+void glball::GLWindow::initializeGL() {
   glEnable(GL_BLEND);
   glBlendEquation(GL_FUNC_ADD);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -79,11 +79,11 @@ void dxball::GLWindow::initializeGL() {
   };
 }
 
-void dxball::GLWindow::terminateGL() {
+void glball::GLWindow::terminateGL() {
   
 }
 
-void dxball::GLWindow::paintGL() {
+void glball::GLWindow::paintGL() {
   glClear(GL_COLOR_BUFFER_BIT);
 
   auto now = std::chrono::steady_clock::now();
@@ -97,7 +97,7 @@ void dxball::GLWindow::paintGL() {
   this->m_last_frame = now;
 }
 
-void dxball::GLWindow::paintUI() {
+void glball::GLWindow::paintUI() {
   abcg::OpenGLWindow::paintUI();
 
   this->m_world.value().renderUI(
@@ -105,7 +105,7 @@ void dxball::GLWindow::paintUI() {
   );
 }
 
-void dxball::GLWindow::render() {
+void glball::GLWindow::render() {
   this->m_world.value().render(
     this->m_projection_matrix,
     this->m_block_renderer.value(),
@@ -114,12 +114,12 @@ void dxball::GLWindow::render() {
   );
 }
 
-void dxball::GLWindow::update(float delta) {
+void glball::GLWindow::update(float delta) {
   this->m_world.value().update(delta);
 }
 
 
-void dxball::GLWindow::handleEvent(SDL_Event &event) {
+void glball::GLWindow::handleEvent(SDL_Event &event) {
   if (event.type == SDL_KEYUP) {
     this->m_world.value().handle_event(InputEvent::NONE);
   } else if (event.type == SDL_KEYDOWN) {

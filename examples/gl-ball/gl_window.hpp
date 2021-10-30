@@ -14,7 +14,7 @@
 #include "world.hpp"
 #include "ui_renderer.hpp"
 
-namespace dxball {
+namespace glball {
   class GLWindow : public abcg::OpenGLWindow {
   public:
     GLWindow();

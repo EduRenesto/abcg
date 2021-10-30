@@ -1,5 +1,5 @@
-#ifndef __DXBALL_PADDLE_RENDERER_HPP
-#define __DXBALL_PADDLE_RENDERER_HPP
+#ifndef __GLBALL_PADDLE_RENDERER_HPP
+#define __GLBALL_PADDLE_RENDERER_HPP
 
 #include <array>
 
@@ -7,7 +7,7 @@
 
 #include "paddle.hpp"
 
-namespace dxball {
+namespace glball {
   class PaddleRenderer {
   public:
     explicit PaddleRenderer(GLuint shader);

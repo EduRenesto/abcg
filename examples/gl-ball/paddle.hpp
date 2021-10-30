@@ -1,11 +1,11 @@
-#ifndef __DXBALL_PADDLE_HPP
-#define __DXBALL_PADDLE_HPP
+#ifndef __GLBALL_PADDLE_HPP
+#define __GLBALL_PADDLE_HPP
 
 #include <glm/glm.hpp>
 
 #include "ball.hpp"
 
-namespace dxball {
+namespace glball {
   class Paddle {
   public:
     Paddle(glm::vec2 initial_pos, float width, float height);
