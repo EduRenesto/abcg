@@ -12,6 +12,9 @@ void dxball::GLWindow::initializeGL() {
   glBlendEquation(GL_FUNC_ADD);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+  // I stole the colors from the Solarized Light pallete. :)
+  glClearColor(0.93333333, 0.90980392, 0.83529412, 1.0);
+
   auto block_shader = createProgramFromFile(
     getAssetsPath() + "shaders/block.vs.glsl",
     getAssetsPath() + "shaders/block.fs.glsl"
@@ -22,8 +25,10 @@ void dxball::GLWindow::initializeGL() {
     getAssetsPath() + "shaders/ball.fs.glsl"
   );
 
+  const auto aspect = 16.0f/9.0f;
+
   this->m_block_renderer = std::optional{
-    BlockRenderer{block_shader, 0.1, 0.1}
+    BlockRenderer{block_shader, 0.1f, 0.1f * aspect}
   };
 
   this->m_ball_renderer = std::optional{
@@ -57,5 +62,5 @@ void dxball::GLWindow::render() {
 }
 
 void dxball::GLWindow::update(float delta) {
-  this->m_world.update(0.3 * delta);
+  this->m_world.update(0.7f * delta);
 }

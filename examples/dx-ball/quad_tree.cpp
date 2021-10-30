@@ -31,7 +31,8 @@ void dxball::QuadTreeLeaf::intersects(dxball::Ball &ball) {
     if (
 	ball_position.x >= block_center.x - 0.5 &&
 	ball_position.x <= block_center.x + 0.5 &&
-	ball_position.y <= block_center.y - 0.5 - ball_radius
+	ball_position.y <= block_center.y - 0.5 &&
+	ball_position.y >= block_center.y - 0.5 - ball_radius
     ) {
       const auto normal = glm::vec2(0.0, -1.0);
       const auto new_velocity = glm::reflect(ball_velocity, normal);
@@ -47,7 +48,8 @@ void dxball::QuadTreeLeaf::intersects(dxball::Ball &ball) {
     if (
 	ball_position.x >= block_center.x - 0.5 &&
 	ball_position.x <= block_center.x + 0.5 &&
-	ball_position.y >= block_center.y + 0.5 + ball_radius
+	ball_position.y >= block_center.y + 0.5 &&
+	ball_position.y <= block_center.y + 0.5 + ball_radius
     ) {
       const auto normal = glm::vec2(0.0, 1.0);
       const auto new_velocity = glm::reflect(ball_velocity, normal);
@@ -63,7 +65,8 @@ void dxball::QuadTreeLeaf::intersects(dxball::Ball &ball) {
     if (
 	ball_position.y >= block_center.y - 0.5 &&
 	ball_position.y <= block_center.y + 0.5 &&
-	ball_position.x >= block_center.x + 0.5 + ball_radius
+	ball_position.x >= block_center.x + 0.5 &&
+	ball_position.x <= block_center.x + 0.5 + ball_radius
     ) {
       const auto normal = glm::vec2(0.0, 1.0);
       const auto new_velocity = glm::reflect(ball_velocity, normal);
@@ -79,7 +82,8 @@ void dxball::QuadTreeLeaf::intersects(dxball::Ball &ball) {
     if (
 	ball_position.y >= block_center.y - 0.5 &&
 	ball_position.y <= block_center.y + 0.5 &&
-	ball_position.x <= block_center.x - 0.5 - ball_radius
+	ball_position.x <= block_center.x - 0.5 &&
+	ball_position.x >= block_center.x - 0.5 - ball_radius
     ) {
       const auto normal = glm::vec2(0.0, -1.0);
       const auto new_velocity = glm::reflect(ball_velocity, normal);

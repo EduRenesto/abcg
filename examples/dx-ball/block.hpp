@@ -16,13 +16,16 @@ namespace dxball {
     [[nodiscard]]
     bool get_is_active() const noexcept;
 
+    [[nodiscard]]
+    float get_current_life() const noexcept;
+
   private:
-    glm::vec2 position;
+    glm::vec2 m_position;
 
-    unsigned int max_hits;
-    unsigned int current_hits{0};
+    unsigned int m_max_hits;
+    unsigned int m_current_hits{0};
 
-    bool is_active{true};
+    bool m_is_active{true};
   };
 }
 

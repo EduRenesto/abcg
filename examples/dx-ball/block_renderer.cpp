@@ -1,5 +1,6 @@
 #include "block_renderer.hpp"
 
+#include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <glm/ext.hpp>
@@ -27,11 +28,19 @@ void dxball::BlockRenderer::render(const Block& block) const noexcept {
   glUseProgram(this->m_block_shader);
   glBindVertexArray(this->m_block_vao);
 
+  const auto translation_matrix = glm::translate(
+     glm::mat3{1.0},
+     block.get_world_position()
+  );
+
   const auto scale_location = glGetUniformLocation(this->m_block_shader, "_scale_matrix");
   glUniformMatrix3fv(scale_location, 1, GL_FALSE, &this->m_block_scale[0][0]);
 
-  const auto position_location = glGetUniformLocation(this->m_block_shader, "_block_position");
-  glUniform2fv(position_location, 1, &block.get_world_position()[0]);
+  const auto translation_location = glGetUniformLocation(this->m_block_shader, "_translation_matrix");
+  glUniformMatrix3fv(translation_location, 1, GL_FALSE, &translation_matrix[0][0]);
+
+  const auto block_life_location = glGetUniformLocation(this->m_block_shader, "_block_life");
+  glUniform1f(block_life_location, block.get_current_life());
 
   glBindVertexArray(this->m_block_vao);
   glDrawArrays(GL_TRIANGLES, 0, 6);

@@ -6,7 +6,7 @@ dxball::World::World() {
   // TODO make this parametrizable
 
   for (int u = -3; u <= 3; u++) {
-    for (int v = -3; v <= 3; v++) {
+    for (int v = 0; v <= 3; v++) {
       auto position = glm::vec2{(float) u, (float) v};
       auto block = std::make_shared<Block>(position, 3);
 
@@ -18,7 +18,7 @@ dxball::World::World() {
 
   auto initial_velocity = glm::vec2{0.2, 1.0};
 
-  this->m_ball = std::optional(Ball{glm::vec2{0.0, -5.0}, 0.01, glm::normalize(initial_velocity)});
+  this->m_ball = std::optional(Ball{glm::vec2{0.0, -5.0}, 0.5, glm::normalize(initial_velocity)});
 }
 
 void dxball::World::render(dxball::BlockRenderer &renderer, dxball::BallRenderer &ball_renderer) {

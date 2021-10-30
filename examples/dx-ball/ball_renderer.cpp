@@ -38,6 +38,6 @@ void dxball::BallRenderer::render(Ball& ball) const noexcept {
   glUniform2fv(position_location, 1, &ball.get_position()[0]);
 
   glBindVertexArray(this->m_ball_vao);
-  glPointSize(ball.get_radius() * 5000);
+  glPointSize(ball.get_radius() * 20);
   glDrawArrays(GL_POINTS, 0, 1);
 }
