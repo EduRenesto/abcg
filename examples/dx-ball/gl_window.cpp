@@ -2,7 +2,9 @@
 #include <chrono>
 #include <glm/ext/matrix_clip_space.hpp>
 #include "SDL_events.h"
+#include "abcg_exception.hpp"
 #include "abcg_openglwindow.hpp"
+#include "imgui.h"
 
 dxball::GLWindow::GLWindow() {
   const auto window_settings = this->getWindowSettings();
@@ -49,6 +51,21 @@ void dxball::GLWindow::initializeGL() {
     getAssetsPath() + "shaders/paddle.fs.glsl"
   );
 
+  ImGuiIO &io{ImGui::GetIO()};
+
+  const auto font_file = getAssetsPath() + "fonts/fantasque_sans_mono.ttf";
+  auto *font = io.Fonts->AddFontFromFileTTF(font_file.c_str(), 60.0f);
+
+  if (font == nullptr) {
+    throw abcg::Exception{abcg::Exception::Runtime("Failed to open font file")};
+  }
+
+  const auto window_settings = this->getWindowSettings();
+
+  this->m_ui_renderer = std::optional{
+    UIRenderer{font, window_settings.width, window_settings.height}
+  };
+
   this->m_block_renderer = std::optional{
     BlockRenderer{block_shader, 0.49f, 0.49f}
   };
@@ -60,6 +77,10 @@ void dxball::GLWindow::initializeGL() {
   this->m_paddle_renderer = std::optional{
     PaddleRenderer{paddle_shader}
   };
+}
+
+void dxball::GLWindow::terminateGL() {
+  
 }
 
 void dxball::GLWindow::paintGL() {
@@ -76,8 +97,12 @@ void dxball::GLWindow::paintGL() {
   this->m_last_frame = now;
 }
 
-void dxball::GLWindow::terminateGL() {
-  
+void dxball::GLWindow::paintUI() {
+  abcg::OpenGLWindow::paintUI();
+
+  this->m_world.value().renderUI(
+    this->m_ui_renderer.value()
+  );
 }
 
 void dxball::GLWindow::render() {

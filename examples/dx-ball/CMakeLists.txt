@@ -11,6 +11,7 @@ add_executable(
 	ball_renderer.cpp
 	paddle.cpp
 	paddle_renderer.cpp
+	ui_renderer.cpp
 	world.cpp
 	quad_tree.cpp
 	main.cpp)

@@ -44,6 +44,10 @@ void dxball::World::render(
   paddle_renderer.render(this->m_paddle.value(), projection_matrix);
 }
 
+void dxball::World::renderUI(dxball::UIRenderer &ui_renderer) {
+  ui_renderer.render(this->m_state);
+}
+
 void dxball::World::update(float delta) {
   if (this->m_state != GameState::PLAYING) return;
 

@@ -18,13 +18,15 @@ int main(int argc, char* argv[]) {
     window->setWindowSettings({
 	.width = 1280,
 	.height = 720,
-	.title = "Orbits",
+	.showFullscreenButton = false,
+	.title = "GL-Ball",
     });
 
     window->setOpenGLSettings({
 	.profile = abcg::OpenGLProfile::Core,
 	.majorVersion = 4,
 	.minorVersion = 1,
+	.samples = 4
     });
 
     app.run(std::move(window));

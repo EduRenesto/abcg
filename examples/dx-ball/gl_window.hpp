@@ -9,8 +9,10 @@
 #include "abcg_openglwindow.hpp"
 #include "block_renderer.hpp"
 #include "ball_renderer.hpp"
+#include "imgui.h"
 #include "paddle_renderer.hpp"
 #include "world.hpp"
+#include "ui_renderer.hpp"
 
 namespace dxball {
   class GLWindow : public abcg::OpenGLWindow {
@@ -34,6 +36,7 @@ namespace dxball {
 
     glm::mat4 m_projection_matrix;
 
+    std::optional<UIRenderer> m_ui_renderer = std::nullopt;
     std::optional<BlockRenderer> m_block_renderer = std::nullopt;
     std::optional<BallRenderer> m_ball_renderer = std::nullopt;
     std::optional<PaddleRenderer> m_paddle_renderer = std::nullopt;

@@ -3,6 +3,8 @@
 
 #include <optional>
 
+#include "game_state.hpp"
+#include "ui_renderer.hpp"
 #include "block_renderer.hpp"
 #include "ball_renderer.hpp"
 #include "paddle_renderer.hpp"
@@ -15,12 +17,6 @@ namespace dxball {
     RIGHT,
   };
 
-  enum GameState {
-    PLAYING,
-    FAIL,
-    SUCCESS,
-  };
-
   class World {
   public:
     World(glm::vec2 bottom_left, glm::vec2 top_right);
@@ -30,6 +26,10 @@ namespace dxball {
       BlockRenderer &block_renderer,
       BallRenderer &ball_renderer,
       PaddleRenderer &paddle_renderer
+    );
+
+    void renderUI(
+      UIRenderer &ui_renderer
     );
 
     void update(float delta);
