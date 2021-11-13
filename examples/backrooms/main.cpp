@@ -38,8 +38,9 @@ int main(int argc, char* argv[]) {
 
   manager.add("suzanne", MeshAsset::build("./assets/cube.obj"));
 
-  auto asset = manager.get("suzanne");
-  auto suzanne = std::static_pointer_cast<MeshAsset>(asset);
+  //auto asset = manager.get("suzanne");
+  //auto suzanne = std::static_pointer_cast<MeshAsset>(asset);
+  auto suzanne = manager.get<MeshAsset>("suzanne");
 
   fmt::print("vertices count: {}\n", suzanne->get().get_positions().size());
   fmt::print("normals count: {}\n", suzanne->get().get_normals().size());
