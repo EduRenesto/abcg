@@ -64,8 +64,9 @@ MeshRenderer::VAOData MeshRenderer::build_vao(const Mesh& mesh) {
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-  std::array<GLuint, 2> vbos{};
-  glGenBuffers(2, vbos.data());
+  //std::array<GLuint, 2> vbos{0,0};
+  GLuint vbos[2];
+  glGenBuffers(2, &vbos[0]);
 
   // Positions buffer
   glBindBuffer(GL_ARRAY_BUFFER, vbos[0]);

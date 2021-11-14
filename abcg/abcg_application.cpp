@@ -35,7 +35,6 @@ void abcg::mainLoopCallback(void *userData) {
  */
 abcg::Application::Application([[maybe_unused]] int argc, char **argv) {
   Uint32 subsystemMask{SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_AUDIO |
-                       SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER |
                        SDL_INIT_EVENTS};
 
   if (SDL_Init(subsystemMask) != 0) {
