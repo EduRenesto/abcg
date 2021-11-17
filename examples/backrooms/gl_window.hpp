@@ -15,6 +15,7 @@ public:
 protected:
   void initializeGL() override;
   void paintGL() override;
+  void terminateGL() override;
 
 private:
   ECS::World *m_world;

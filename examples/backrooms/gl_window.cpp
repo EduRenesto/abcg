@@ -8,12 +8,13 @@
 #include "components/mesh_component.hpp"
 #include "components/material_component.hpp"
 #include "components/transform_component.hpp"
+#include "level/level.hpp"
 
 GLWindow::GLWindow() {
   this->m_world = ECS::World::createWorld();
   this->m_camera = Camera{
-    glm::vec3{5.0},
-    glm::vec3{0.0},
+    glm::vec3{0.0, 1.0, -5.0},
+    glm::vec3{0.0, 1.0, 0.0},
     glm::vec3{0.0, 1.0, 0.0}
   };
 
@@ -37,13 +38,14 @@ void GLWindow::initializeGL() {
   glFrontFace(GL_CCW);
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
-  glClearColor(0.2, 0.0, 0.2, 0.0);
+  glClearColor(0.0, 0.0, 0.0, 1.0);
 
   const auto assets_path = this->getAssetsPath();
 
   // Mesh assets
   this->m_asset_manager.add("cube", MeshAsset::build(assets_path + "models/cube.obj"));
   this->m_asset_manager.add("suzanne", MeshAsset::build(assets_path + "models/suzanne.obj"));
+  this->m_asset_manager.add("sponza", MeshAsset::build(assets_path + "models/sponza.obj"));
 
   // Shaders
   this->m_asset_manager.add("unlit", ShaderAsset::build(this->createProgramFromFile(
@@ -60,10 +62,13 @@ void GLWindow::initializeGL() {
   this->m_world->registerSystem(this->m_mesh_renderer.get());
 
   // Basic entities
-  auto *cube{this->m_world->create()};
-  cube->assign<MeshComponent>(MeshComponent{"suzanne"});
-  cube->assign<MaterialComponent>(MaterialComponent{"unlit"});
-  cube->assign<TransformComponent>(TransformComponent{Transform{}});
+  //auto *cube{this->m_world->create()};
+  //cube->assign<MeshComponent>(MeshComponent{"cube"});
+  //cube->assign<MaterialComponent>(MaterialComponent{"unlit"});
+  //cube->assign<TransformComponent>(TransformComponent{Transform{}});
+
+  Level level{this->m_world};
+  level.build();
 };
 
 void GLWindow::paintGL() {
@@ -71,4 +76,8 @@ void GLWindow::paintGL() {
 
   auto dt{this->getDeltaTime()};
   this->m_world->tick((float) dt);
+}
+
+void GLWindow::terminateGL() {
+  this->m_world->destroyWorld();
 }

@@ -10,6 +10,7 @@ set(backrooms_sources
   rendering/mesh.cpp
   rendering/transform.cpp
   rendering/camera.cpp
+  level/level.cpp
   systems/mesh_renderer.cpp)
 
 add_executable(backrooms ${backrooms_sources})
