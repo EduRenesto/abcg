@@ -100,7 +100,7 @@ MeshRenderer::VAOData MeshRenderer::build_vao(const Mesh& mesh) {
 
 void MeshRenderer::draw_vao(VAOData vao, GLuint shader, Transform& transform) {
   const auto& model_mtx = transform.build_model_matrix();
-  const auto& view_mtx = this->m_camera.build_view_matrix();
+  const auto& view_mtx = this->m_camera->build_view_matrix();
 
   glUseProgram(shader);
   glBindVertexArray(vao.vao);

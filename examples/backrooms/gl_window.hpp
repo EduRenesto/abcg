@@ -6,6 +6,7 @@
 #include "ecs.hpp"
 #include "rendering/camera.hpp"
 #include "asset_manager/asset_manager.hpp"
+#include "systems/camera_system.hpp"
 #include "systems/mesh_renderer.hpp"
 
 class GLWindow : public abcg::OpenGLWindow {
@@ -19,12 +20,13 @@ protected:
 
 private:
   ECS::World *m_world;
-  Camera m_camera;
+  std::shared_ptr<Camera> m_camera;
   glm::mat4 m_proj_matrix;
 
   AssetManager m_asset_manager;
 
   std::shared_ptr<MeshRenderer> m_mesh_renderer;
+  std::shared_ptr<CameraSystem> m_cam_ctrl;
 };
 
 #endif

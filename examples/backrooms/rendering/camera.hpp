@@ -16,6 +16,10 @@ public:
   [[nodiscard]]
   glm::mat4 build_view_matrix() const;
 
+  void set_eye(glm::vec3 eye);
+  void set_center(glm::vec3 center);
+  void set_up(glm::vec3 up);
+
 private:
   glm::vec3 m_eye{};
   glm::vec3 m_center{};

@@ -1,6 +1,7 @@
 #ifndef __BACKROOMS_MESH_RENDERER
 #define __BACKROOMS_MESH_RENDERER
 
+#include <memory>
 #include <map>
 #include <string>
 #include <GL/glew.h>
@@ -14,7 +15,7 @@
 
 class MeshRenderer : public ECS::EntitySystem {
 public:
-  explicit MeshRenderer(AssetManager& manager, const Camera& camera, glm::mat4 proj_matrix) :
+  explicit MeshRenderer(AssetManager& manager, std::shared_ptr<Camera> camera, glm::mat4 proj_matrix) :
     m_asset_manager(manager),
     m_camera(camera),
     m_projection_matrix(proj_matrix)
@@ -34,7 +35,7 @@ private:
 
   AssetManager& m_asset_manager;
 
-  const Camera& m_camera;
+  std::shared_ptr<Camera> m_camera;
 
   glm::mat4 m_projection_matrix;
 

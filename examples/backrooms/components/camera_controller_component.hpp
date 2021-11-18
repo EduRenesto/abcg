@@ -10,6 +10,12 @@ struct CameraControllerComponent {
   ECS_DECLARE_TYPE
 
   std::shared_ptr<Camera> camera;
-} __attribute__((aligned(16)));
+
+  glm::vec3 eye;
+  glm::vec3 center;
+  glm::vec3 up;
+} __attribute__((aligned(64)));
+
+ECS_DEFINE_TYPE(CameraControllerComponent)
 
 #endif

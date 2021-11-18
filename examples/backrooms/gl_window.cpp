@@ -1,5 +1,6 @@
 #include <glm/ext/matrix_clip_space.hpp>
 
+#include "components/camera_controller_component.hpp"
 #include "gl_window.hpp"
 
 #include "asset_manager/mesh_asset.hpp"
@@ -9,14 +10,15 @@
 #include "components/material_component.hpp"
 #include "components/transform_component.hpp"
 #include "level/level.hpp"
+#include "systems/camera_system.hpp"
 
 GLWindow::GLWindow() {
   this->m_world = ECS::World::createWorld();
-  this->m_camera = Camera{
+  this->m_camera = std::make_shared<Camera>(Camera{
     glm::vec3{0.0, 1.0, -5.0},
     glm::vec3{0.0, 1.0, 0.0},
     glm::vec3{0.0, 1.0, 0.0}
-  };
+  });
 
   const auto window_settings = this->getWindowSettings();
   const auto aspect = (double) window_settings.width / (double) window_settings.height;
@@ -61,11 +63,17 @@ void GLWindow::initializeGL() {
   });
   this->m_world->registerSystem(this->m_mesh_renderer.get());
 
+  this->m_cam_ctrl = std::make_shared<CameraSystem>(CameraSystem{});
+  this->m_world->registerSystem(this->m_cam_ctrl.get());
+
   // Basic entities
   //auto *cube{this->m_world->create()};
   //cube->assign<MeshComponent>(MeshComponent{"cube"});
   //cube->assign<MaterialComponent>(MaterialComponent{"unlit"});
   //cube->assign<TransformComponent>(TransformComponent{Transform{}});
+
+  auto *camera_control{this->m_world->create()};
+  camera_control->assign<CameraControllerComponent>(CameraControllerComponent{this->m_camera, glm::vec3{10.0, 10.0, -10.0}, glm::vec3{0.0, 10.0, 0.0}, glm::vec3{0.0, 1.0, 0.0}});
 
   Level level{this->m_world};
   level.build();
