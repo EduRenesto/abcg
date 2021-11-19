@@ -9,7 +9,6 @@
 class ShaderAsset : public Asset {
 public:
   explicit ShaderAsset(GLuint handle) : m_handle(handle) {}
-
   [[nodiscard]]
   GLuint get() const;
 

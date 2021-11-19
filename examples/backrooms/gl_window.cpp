@@ -14,33 +14,20 @@
 
 GLWindow::GLWindow() {
   this->m_world = ECS::World::createWorld();
-  this->m_camera = std::make_shared<Camera>(Camera{
-    glm::vec3{1290.0, 90.0, 35.0},
-    glm::vec3{-1290.0, 160.0, 35.0},
-    glm::vec3{0.0, 1.0, 0.0}
-  });
+  this->m_camera = std::make_shared<Camera>(Camera{});
 
   const auto window_settings = this->getWindowSettings();
-  const auto aspect = (double) window_settings.width / (double) window_settings.height;
-
-  this->m_proj_matrix = glm::perspective(
-    M_PI / 3.0,
-    aspect,
-    0.01,
-    1000.0
-  );
+  this->resizeGL(window_settings.width, window_settings.height);
 
   this->m_asset_manager = AssetManager{};
 }
 
 void GLWindow::initializeGL() {
-  // TODO deinit
-
   glEnable(GL_DEPTH_TEST);
   glFrontFace(GL_CCW);
   glEnable(GL_CULL_FACE);
   glCullFace(GL_BACK);
-  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClearColor(0.53, 0.81, 0.92, 1.0);
 
   const auto assets_path = this->getAssetsPath();
 
@@ -63,6 +50,7 @@ void GLWindow::initializeGL() {
   });
   this->m_world->registerSystem(this->m_mesh_renderer.get());
 
+  // Camera controller system
   this->m_cam_ctrl = std::make_shared<CameraSystem>(CameraSystem{
       this->m_input,
       15.0f,
@@ -70,15 +58,17 @@ void GLWindow::initializeGL() {
   });
   this->m_world->registerSystem(this->m_cam_ctrl.get());
 
-  // Basic entities
+  // Camera controller entity
   auto *camera_control{this->m_world->create()};
   camera_control->assign<CameraControllerComponent>(CameraControllerComponent{
     this->m_camera, 
     glm::vec3{100, 100, 100},
     glm::vec3{0, 0, 0},
-    glm::vec3{0.0, 1.0, 0.0}
+    glm::vec3{0.0, 1.0, 0.0},
+    true,
   });
 
+  // Build the world
   Level level{this->m_world};
   level.build();
 };
@@ -96,4 +86,16 @@ void GLWindow::terminateGL() {
 
 void GLWindow::handleEvent(SDL_Event &evt) {
   this->m_input.update(evt);
+}
+
+void GLWindow::resizeGL(int width, int height) {
+  const auto aspect = (double) width / (double) height;
+
+  // Rebuild projection matrix
+  this->m_proj_matrix = glm::perspective(
+    M_PI / 3.0,
+    aspect,
+    0.01,
+    1000.0
+  );
 }

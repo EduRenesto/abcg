@@ -8,8 +8,8 @@ glm::mat4 Camera::build_view_matrix() const {
   auto eye{glm::to_string(this->m_eye)};
   auto center{glm::to_string(this->m_center)};
   auto up{glm::to_string(this->m_up)};
-  fmt::print("Camera::build_view_matrix()\n");
-  fmt::print("\neye = {}, center = {}, up = {}\n", eye, center, up);
+  //fmt::print("Camera::build_view_matrix()\n");
+  //fmt::print("\neye = {}, center = {}, up = {}\n", eye, center, up);
   return glm::lookAt(this->m_eye, this->m_center, this->m_up);
 }
 

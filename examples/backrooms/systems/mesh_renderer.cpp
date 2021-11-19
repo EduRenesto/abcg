@@ -10,13 +10,30 @@
 
 #include "../asset_manager/shader_asset.hpp"
 
-void MeshRenderer::configure(ECS::World *world) {
-  std::cout << "MeshRenderer::configure" << std::endl;
+void MeshRenderer::configure(ECS::World *_world) {
+  /* do nothing */
 }
 
 void MeshRenderer::unconfigure(ECS::World *world) {
-  // TODO destroy VAOs
-  std::cout << "MeshRenderer::unconfigure" << std::endl;
+  // Destroy VAOs
+  while (!this->m_vaos.empty()) {
+    auto data{this->m_vaos.end()};
+    glDeleteVertexArrays(1, &data->second.vao);
+    this->m_vaos.erase(data);
+  }
+
+  // Destroy VBOs
+  glDeleteBuffers(this->m_vbos.size(), this->m_vbos.data());
+  this->m_vbos.clear();
+
+  // Destroy shaders
+  world->each<MaterialComponent>([&] (
+    ECS::Entity *e,
+    ECS::ComponentHandle<MaterialComponent> material
+  ) -> void {
+    auto shader{this->m_asset_manager.get<ShaderAsset>(material->asset_name)};
+    glDeleteProgram(shader->get());
+  });
 }
 
 void MeshRenderer::tick(ECS::World *world, float dt) {
@@ -26,15 +43,6 @@ void MeshRenderer::tick(ECS::World *world, float dt) {
     ECS::ComponentHandle<MaterialComponent> material,
     ECS::ComponentHandle<TransformComponent> transform
   ) -> void {
-    /*
-    fmt::print(
-      "[MeshRenderer] Should render entity {} with mesh {}, material {}\n",
-      e->getEntityId(),
-      mesh->asset_name,
-      material->asset_name
-    );
-    */
-
     auto vao{this->get_vao(mesh->asset_name)};
     auto shader{this->m_asset_manager.get<ShaderAsset>(material->asset_name)};
 
@@ -64,8 +72,8 @@ MeshRenderer::VAOData MeshRenderer::build_vao(const Mesh& mesh) {
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-  //std::array<GLuint, 2> vbos{0,0};
-  GLuint vbos[2];
+  std::array<GLuint, 2> vbos{{0,0}};
+  //GLuint vbos[2];
   glGenBuffers(2, &vbos[0]);
 
   // Positions buffer
@@ -92,6 +100,8 @@ MeshRenderer::VAOData MeshRenderer::build_vao(const Mesh& mesh) {
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
+
+  this->m_vbos.insert(this->m_vbos.end(), vbos.begin(), vbos.end());
 
   VAOData data{vao, positions.size()};
 

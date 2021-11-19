@@ -41,6 +41,8 @@ private:
 
   std::map<std::string, VAOData> m_vaos;
 
+  std::vector<GLuint> m_vbos{};
+
   VAOData get_vao(std::string& asset_name);
 
   VAOData build_vao(const Mesh& mesh);

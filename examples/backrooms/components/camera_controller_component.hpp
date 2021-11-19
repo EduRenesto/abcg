@@ -14,6 +14,8 @@ struct CameraControllerComponent {
   glm::vec3 eye;
   glm::vec3 center;
   glm::vec3 up;
+
+  bool should_update;
 } __attribute__((aligned(64)));
 
 ECS_DEFINE_TYPE(CameraControllerComponent)

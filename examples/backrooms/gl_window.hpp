@@ -18,6 +18,8 @@ protected:
   void initializeGL() override;
   void terminateGL() override;
 
+  void resizeGL(int width, int height) override;
+
   void paintGL() override;
 
   void handleEvent(SDL_Event &evt) override;
