@@ -1,4 +1,6 @@
 #include <iostream>
+#include <array>
+
 #include <glm/gtx/string_cast.hpp>
 #include <fmt/format.h>
 
