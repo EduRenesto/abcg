@@ -3,6 +3,7 @@ project(backrooms)
 set(backrooms_sources
   main.cpp
   gl_window.cpp
+  input.cpp
   asset_manager/asset.cpp
   asset_manager/asset_manager.cpp
   asset_manager/mesh_asset.cpp

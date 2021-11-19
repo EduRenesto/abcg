@@ -4,6 +4,7 @@
 #include "abcg_openglwindow.hpp"
 
 #include "ecs.hpp"
+#include "input.hpp"
 #include "rendering/camera.hpp"
 #include "asset_manager/asset_manager.hpp"
 #include "systems/camera_system.hpp"
@@ -15,8 +16,11 @@ public:
 
 protected:
   void initializeGL() override;
-  void paintGL() override;
   void terminateGL() override;
+
+  void paintGL() override;
+
+  void handleEvent(SDL_Event &evt) override;
 
 private:
   ECS::World *m_world;
@@ -27,6 +31,8 @@ private:
 
   std::shared_ptr<MeshRenderer> m_mesh_renderer;
   std::shared_ptr<CameraSystem> m_cam_ctrl;
+
+  Input m_input{};
 };
 
 #endif

@@ -15,8 +15,8 @@
 GLWindow::GLWindow() {
   this->m_world = ECS::World::createWorld();
   this->m_camera = std::make_shared<Camera>(Camera{
-    glm::vec3{0.0, 1.0, -5.0},
-    glm::vec3{0.0, 1.0, 0.0},
+    glm::vec3{1290.0, 90.0, 35.0},
+    glm::vec3{-1290.0, 160.0, 35.0},
     glm::vec3{0.0, 1.0, 0.0}
   });
 
@@ -63,17 +63,21 @@ void GLWindow::initializeGL() {
   });
   this->m_world->registerSystem(this->m_mesh_renderer.get());
 
-  this->m_cam_ctrl = std::make_shared<CameraSystem>(CameraSystem{});
+  this->m_cam_ctrl = std::make_shared<CameraSystem>(CameraSystem{
+      this->m_input,
+      15.0f,
+      0.5f,
+  });
   this->m_world->registerSystem(this->m_cam_ctrl.get());
 
   // Basic entities
-  //auto *cube{this->m_world->create()};
-  //cube->assign<MeshComponent>(MeshComponent{"cube"});
-  //cube->assign<MaterialComponent>(MaterialComponent{"unlit"});
-  //cube->assign<TransformComponent>(TransformComponent{Transform{}});
-
   auto *camera_control{this->m_world->create()};
-  camera_control->assign<CameraControllerComponent>(CameraControllerComponent{this->m_camera, glm::vec3{10.0, 10.0, -10.0}, glm::vec3{0.0, 10.0, 0.0}, glm::vec3{0.0, 1.0, 0.0}});
+  camera_control->assign<CameraControllerComponent>(CameraControllerComponent{
+    this->m_camera, 
+    glm::vec3{100, 100, 100},
+    glm::vec3{0, 0, 0},
+    glm::vec3{0.0, 1.0, 0.0}
+  });
 
   Level level{this->m_world};
   level.build();
@@ -88,4 +92,8 @@ void GLWindow::paintGL() {
 
 void GLWindow::terminateGL() {
   this->m_world->destroyWorld();
+}
+
+void GLWindow::handleEvent(SDL_Event &evt) {
+  this->m_input.update(evt);
 }
