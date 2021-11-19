@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_TRANSFORM_COMPONENT_HPP
-#define __BACKROOMS_TRANSFORM_COMPONENT_HPP
+#ifndef __SPONZA_TRANSFORM_COMPONENT_HPP
+#define __SPONZA_TRANSFORM_COMPONENT_HPP
 
 #include "../ecs.hpp"
 #include "../rendering/transform.hpp"

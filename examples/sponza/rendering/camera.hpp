@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_CAMERA_HPP
-#define __BACKROOMS_CAMERA_HPP
+#ifndef __SPONZA_CAMERA_HPP
+#define __SPONZA_CAMERA_HPP
 
 #include <glm/glm.hpp>
 

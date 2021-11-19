@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_TRANSFORM_HPP
-#define __BACKROOMS_TRANSFORM_HPP
+#ifndef __SPONZA_TRANSFORM_HPP
+#define __SPONZA_TRANSFORM_HPP
 
 #include <glm/glm.hpp>
 

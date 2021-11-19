@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
 	.width = 1280,
 	.height = 720,
 	.showFullscreenButton = false,
-	.title = "BACKROOMS",
+	.title = "SPONZA",
     });
 
     window->setOpenGLSettings({

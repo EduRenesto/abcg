@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_INPUT_HPP
-#define __BACKROOMS_INPUT_HPP
+#ifndef __SPONZA_INPUT_HPP
+#define __SPONZA_INPUT_HPP
 
 #include <array>
 #include <map>

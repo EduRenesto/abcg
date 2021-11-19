@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_CAMERA_SYSTEM_HPP
-#define __BACKROOMS_CAMERA_SYSTEM_HPP
+#ifndef __SPONZA_CAMERA_SYSTEM_HPP
+#define __SPONZA_CAMERA_SYSTEM_HPP
 
 #include "../ecs.hpp"
 #include "../input.hpp"

@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_SHADER_ASSET_HPP
-#define __BACKROOMS_SHADER_ASSET_HPP
+#ifndef __SPONZA_SHADER_ASSET_HPP
+#define __SPONZA_SHADER_ASSET_HPP
 
 #include <GL/glew.h>
 #include <memory>

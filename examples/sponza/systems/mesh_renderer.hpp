@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_MESH_RENDERER
-#define __BACKROOMS_MESH_RENDERER
+#ifndef __SPONZA_MESH_RENDERER
+#define __SPONZA_MESH_RENDERER
 
 #include <memory>
 #include <map>

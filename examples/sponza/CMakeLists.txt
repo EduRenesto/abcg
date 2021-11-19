@@ -1,6 +1,6 @@
-project(backrooms)
+project(sponza)
 
-set(backrooms_sources
+set(sponza_sources
   main.cpp
   gl_window.cpp
   input.cpp
@@ -16,6 +16,6 @@ set(backrooms_sources
   systems/camera_system.cpp
   )
 
-add_executable(backrooms ${backrooms_sources})
+add_executable(sponza ${sponza_sources})
 
-enable_abcg(backrooms)
+enable_abcg(sponza)

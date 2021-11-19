@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_ASSET_MANAGER_HPP
-#define __BACKROOMS_ASSET_MANAGER_HPP
+#ifndef __SPONZA_ASSET_MANAGER_HPP
+#define __SPONZA_ASSET_MANAGER_HPP
 
 #include <memory>
 #include <string>

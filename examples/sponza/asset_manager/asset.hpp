@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_ASSET_HPP
-#define __BACKROOMS_ASSET_HPP
+#ifndef __SPONZA_ASSET_HPP
+#define __SPONZA_ASSET_HPP
 
 #include <string>
 

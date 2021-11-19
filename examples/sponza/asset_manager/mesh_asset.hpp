@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_MESH_ASSET_HPP
-#define __BACKROOMS_MESH_ASSET_HPP
+#ifndef __SPONZA_MESH_ASSET_HPP
+#define __SPONZA_MESH_ASSET_HPP
 
 #include <memory>
 #include <string>

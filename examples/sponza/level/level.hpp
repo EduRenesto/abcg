@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_LEVEL_HPP
-#define __BACKROOMS_LEVEL_HPP
+#ifndef __SPONZA_LEVEL_HPP
+#define __SPONZA_LEVEL_HPP
 
 #include <glm/glm.hpp>
 

@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_GL_WINDOW_HPP
-#define __BACKROOMS_GL_WINDOW_HPP
+#ifndef __SPONZA_GL_WINDOW_HPP
+#define __SPONZA_GL_WINDOW_HPP
 
 #include "abcg_openglwindow.hpp"
 

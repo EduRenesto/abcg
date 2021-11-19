@@ -1,5 +1,5 @@
-#ifndef __BACKROOMS_MESH_HPP
-#define __BACKROOMS_MESH_HPP
+#ifndef __SPONZA_MESH_HPP
+#define __SPONZA_MESH_HPP
 
 #include <glm/glm.hpp>
 #include <vector>
