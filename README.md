@@ -14,6 +14,10 @@ Currently, you can find the following projects in the `examples` folder:
 
 - *GL-Ball*: A simple Arkanoid clone, with some influences from the
   `DX-Ball` DOS game and the `One More Brick` mobile game. [live demo](https://renesto.netlify.app/courses/cg/gl-ball) [report](./reports/a1.gl-ball.pdf)
+- *A Completely Normal Tour of Sponza*: A demo loading and rendering
+  the Crytek Sponza scene, using an ECS architecture, with lazy
+  loading. For now it doesn't load textures, it uses the vertex
+  normals as the colors instead. [live demo](https://renesto.netlify.app/courses/cg/sponza) [report](./reports/a2.sponza.pdf)
   
 ### Reports
 
