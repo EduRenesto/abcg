@@ -1,4 +1,5 @@
-TARGETS := a1.gl-ball.pdf
+TARGETS := a1.gl-ball.pdf \
+	a2.sponza.pdf
 
 %.pdf: %.md
 	pandoc $< -o $@

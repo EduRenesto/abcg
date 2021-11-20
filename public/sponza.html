@@ -148,7 +148,7 @@
     <div class="spinner"></div>
     <center style="margin-top:0.5em"><strong>Hello, world!</strong></center>
   </figure>
-  <div class="emscripten" id="status">Downloading...</div>
+  <div class="emscripten" id="status">Downloading... It takes a while to load, dont quit!</div>
   <div class="emscripten">
     <progress value="50" max="100" id="progress" hidden=1></progress>
   </div>
@@ -245,7 +245,7 @@
         Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
       }
     };
-    Module.setStatus('Downloading...');
+    Module.setStatus('Downloading... It takes a while to load, dont quit!');
     window.onerror = function () {
       addErrorMessage('Exception thrown. See JavaScript console.');
       Module.setStatus('Exception thrown, see JavaScript console');
