@@ -36,18 +36,23 @@ private:
   AssetManager& m_asset_manager;
 
   std::shared_ptr<Camera> m_camera;
-
   glm::mat4 m_projection_matrix;
 
   std::map<std::string, VAOData> m_vaos;
-
   std::vector<GLuint> m_vbos{};
 
+  std::map<std::string, std::vector<GLuint>> m_textures;
+  std::map<std::string, std::vector<GLuint>> m_samplers;
+
   VAOData get_vao(std::string& asset_name);
-
   VAOData build_vao(const Mesh& mesh);
+  void draw_vao(std::string asset_name, VAOData vao, GLuint shader, Transform& transform);
 
-  void draw_vao(VAOData vao, GLuint shader, Transform& transform);
+  std::vector<GLuint>& get_textures(std::string& asset_name);
+  std::vector<GLuint> build_textures(const Mesh& mesh);
+
+  std::vector<GLuint>& get_samplers(std::string& asset_name);
+  std::vector<GLuint> build_samplers(const Mesh& mesh);
 };
 
 #endif

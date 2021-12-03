@@ -8,9 +8,11 @@ set(sponza_sources
   asset_manager/asset_manager.cpp
   asset_manager/mesh_asset.cpp
   asset_manager/shader_asset.cpp
+  asset_manager/texture_asset.cpp
   rendering/mesh.cpp
   rendering/transform.cpp
   rendering/camera.cpp
+  rendering/material.cpp
   level/level.cpp
   systems/mesh_renderer.cpp
   systems/camera_system.cpp
