@@ -7,9 +7,9 @@
 
 #include "abcg_exception.hpp"
 
-const Mesh& MeshAsset::get() {
-  if (this->m_mesh.has_value()) {
-    return this->m_mesh.value();
+const std::vector<Mesh>& MeshAsset::get() {
+  if (this->m_meshes.has_value()) {
+    return this->m_meshes.value();
   }
 
   fmt::print("Loading model asset from {}...\n", this->m_path);
@@ -29,12 +29,7 @@ const Mesh& MeshAsset::get() {
   const auto& shapes{reader.GetShapes()};
   const auto& src_materials{reader.GetMaterials()};
 
-  std::vector<glm::vec3> positions{};
-  std::vector<glm::vec3> normals{};
-  std::vector<glm::vec2> tex_coords{};
-
   std::vector<Material> materials{};
-  std::vector<int> material_indices{};
 
   materials.reserve(src_materials.size());
   for (const auto& material : src_materials) {
@@ -48,9 +43,14 @@ const Mesh& MeshAsset::get() {
 
   fmt::print("total materials: {}\n", materials.size());
 
-  // No indexing here, just raw vertices.
+  std::vector<Mesh> meshes{};
 
   for (const auto& shape : shapes) {
+    // No indexing here, just raw vertices.
+    std::vector<glm::vec3> positions{};
+    std::vector<glm::vec3> normals{};
+    std::vector<glm::vec2> tex_coords{};
+
     auto face_idx = 0;
     for (const auto& face : shape.mesh.indices) {
       const auto vertex{glm::vec3{
@@ -73,28 +73,35 @@ const Mesh& MeshAsset::get() {
       //fmt::print("shape.mesh.material_ids.len = {}\n", shape.mesh.material_ids.size());
       //fmt::print("shape.mesh.indices.len = {}\n", shape.mesh.indices.size());
       //fmt::print("face_idx/3 = {}\n", face_idx/3);
-      const auto material_index{shape.mesh.material_ids.at(face_idx/3)};
+      //const auto material_index{shape.mesh.material_ids.at(face_idx/3)};
 
       positions.push_back(vertex);
       normals.push_back(normal);
       tex_coords.push_back(tex_coord);
-      material_indices.push_back(material_index);
+      //material_indices.push_back(material_index);
 
       face_idx++;
     }
+    
+    auto mesh = Mesh{
+      shape.name,
+      std::move(positions),
+      std::move(normals),
+      std::move(tex_coords),
+      Material{materials.at(shape.mesh.material_ids.at(0))},
+      //std::move(material_indices),
+      //std::move(materials),
+    };
+
+    meshes.push_back(mesh);
   }
 
-  auto mesh = Mesh{
-    std::move(positions),
-    std::move(normals),
-    std::move(tex_coords),
-    std::move(material_indices),
-    std::move(materials),
-  };
+  fmt::print("Loaded {} meshes from {}\n", meshes.size(), this->m_path);
 
-  this->m_mesh = std::optional{std::move(mesh)};
+  //this->m_mesh = std::optional{std::move(mesh)};
+  this->m_meshes = std::optional{std::move(meshes)};
 
-  return this->m_mesh.value();
+  return this->m_meshes.value();
 }
 
 std::shared_ptr<Asset> MeshAsset::build(std::string path) {

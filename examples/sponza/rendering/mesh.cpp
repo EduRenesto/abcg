@@ -12,10 +12,6 @@ const std::vector<glm::vec2>& Mesh::get_tex_coords() const noexcept {
   return this->m_tex_coords;
 }
 
-const std::vector<int>& Mesh::get_material_indices() const noexcept {
-  return this->m_material_indices;
-}
-
-const std::vector<Material>& Mesh::get_materials() const noexcept {
-  return this->m_materials;
+const Material& Mesh::get_material() const noexcept {
+  return this->m_material;
 }

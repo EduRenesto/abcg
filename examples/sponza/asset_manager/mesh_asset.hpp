@@ -13,14 +13,14 @@ class MeshAsset : public Asset {
 public:
   explicit MeshAsset(std::string path) : m_path(std::move(path)) {}
 
-  const Mesh& get();
+  const std::vector<Mesh>& get();
 
   static std::shared_ptr<Asset> build(std::string path);
 
 private:
   std::string m_path;
 
-  std::optional<Mesh> m_mesh{std::nullopt};
+  std::optional<std::vector<Mesh>> m_meshes{std::nullopt};
 };
 
 #endif
