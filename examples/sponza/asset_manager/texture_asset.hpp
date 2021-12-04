@@ -13,7 +13,7 @@ public:
   [[nodiscard]]
   GLuint get() const;
 
-  std::shared_ptr<Asset> build(GLuint handle);
+  static std::shared_ptr<Asset> build(GLuint handle);
 
 private:
   GLuint m_handle;

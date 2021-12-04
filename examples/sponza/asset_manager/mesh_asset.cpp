@@ -38,7 +38,12 @@ const Mesh& MeshAsset::get() {
 
   materials.reserve(src_materials.size());
   for (const auto& material : src_materials) {
-    materials.emplace_back(material.diffuse_texname);
+    fmt::print("name = {}, diffuse_texname = {}\n", material.name, material.diffuse_texname);
+    if (material.diffuse_texname.empty()) {
+      materials.push_back(Material{"textures/default"});
+    } else {
+      materials.push_back(Material{material.diffuse_texname});
+    }
   }
 
   fmt::print("total materials: {}\n", materials.size());

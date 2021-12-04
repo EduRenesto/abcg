@@ -1,10 +1,12 @@
 #include <glm/ext/matrix_clip_space.hpp>
 
+#include "abcg_image.hpp"
 #include "components/camera_controller_component.hpp"
 #include "gl_window.hpp"
 
 #include "asset_manager/mesh_asset.hpp"
 #include "asset_manager/shader_asset.hpp"
+#include "asset_manager/texture_asset.hpp"
 
 #include "components/mesh_component.hpp"
 #include "components/material_component.hpp"
@@ -41,6 +43,41 @@ void GLWindow::initializeGL() {
     assets_path + "shaders/unlit.vs.glsl",
     assets_path + "shaders/unlit.fs.glsl"
   )));
+
+  // Textures
+  std::vector<std::pair<std::string, std::string>> textures{
+    { "textures/lion.tga", "textures/lion.png" },
+    { "textures/background.tga", "textures/background.png" },
+    { "textures/vase_plant.tga", "textures/vase_plant.png" },
+    { "textures/sponza_arch_diff.tga", "textures/sponza_arch_diff.png" },
+    { "textures/spnza_bricks_a_diff.tga", "textures/spnza_bricks_a_diff.png" },
+    { "textures/sponza_ceiling_a_diff.tga", "textures/sponza_ceiling_a_diff.png" },
+    { "textures/chain_texture.tga", "textures/chain_texture.png" },
+    { "textures/sponza_column_a_diff.tga", "textures/sponza_column_a_diff.png" },
+    { "textures/sponza_column_b_diff.tga", "textures/sponza_column_b_diff.png" },
+    { "textures/sponza_column_c_diff.tga", "textures/sponza_column_c_diff.png" },
+    { "textures/sponza_details_diff.tga", "textures/sponza_details_diff.png" },
+    { "textures/sponza_fabric_diff.tga", "textures/sponza_fabric_diff.png" },
+    { "textures/sponza_curtain_diff.tga", "textures/sponza_curtain_diff.png" },
+    { "textures/sponza_fabric_blue_diff.tga", "textures/sponza_fabric_blue_diff.png" },
+    { "textures/sponza_fabric_green_diff.tga", "textures/sponza_fabric_green_diff.png" },
+    { "textures/sponza_curtain_green_diff.tga", "textures/sponza_curtain_green_diff.png" },
+    { "textures/sponza_curtain_blue_diff.tga", "textures/sponza_curtain_blue_diff.png" },
+    { "textures/sponza_flagpole_diff.tga", "textures/sponza_flagpole_diff.png" },
+    { "textures/sponza_floor_a_diff.tga", "textures/sponza_floor_a_diff.png" },
+    { "textures/sponza_thorn_diff.tga", "textures/sponza_thorn_diff.png" },
+    { "textures/sponza_roof_diff.tga", "textures/sponza_roof_diff.png" },
+    { "textures/vase_dif.tga", "textures/vase_dif.png" },
+    { "textures/vase_hanging.tga", "textures/vase_hanging.png" },
+    { "textures/vase_round.tga", "textures/vase_round.png" },
+    { "textures/default", "textures/default.png" },
+  };
+
+  for (auto& pair : textures) {
+    auto texture{abcg::opengl::loadTexture(assets_path + pair.second)};
+
+    this->m_asset_manager.add(pair.first, TextureAsset::build(texture));
+  }
 
   // Mesh Renderer system
   this->m_mesh_renderer = std::make_shared<MeshRenderer>(MeshRenderer{
