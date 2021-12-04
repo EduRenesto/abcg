@@ -126,7 +126,15 @@ std::vector<MeshRenderer::VAOData> MeshRenderer::build_vaos(const std::vector<Me
 
     this->m_vbos.insert(this->m_vbos.end(), vbos.begin(), vbos.end());
 
-    VAOData data{vao, positions.size()};
+    auto texture_asset{
+      this->m_asset_manager.get<TextureAsset>(mesh.get_material().get_texture_name())
+    };
+
+    VAOData data{
+      vao,
+      positions.size(),
+      texture_asset->get(),
+    };
 
     vaos.push_back(data);
   }
@@ -148,6 +156,12 @@ void MeshRenderer::draw_vao(VAOData vao, GLuint shader, Transform& transform) {
   glUniformMatrix4fv(model_loc, 1, GL_FALSE, &model_mtx[0][0]);
   glUniformMatrix4fv(view_loc, 1, GL_FALSE, &view_mtx[0][0]);
   glUniformMatrix4fv(proj_loc, 1, GL_FALSE, &this->m_projection_matrix[0][0]);
+
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, vao.tex_handle);
+
+  const auto texture_loc = glGetUniformLocation(shader, "_diffuse_texture");
+  glUniform1i(texture_loc, 0);
 
   glDrawArrays(GL_TRIANGLES, 0, (GLsizei) vao.vertex_count);
 }

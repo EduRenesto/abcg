@@ -31,6 +31,7 @@ private:
   struct VAOData {
     GLuint vao;
     size_t vertex_count;
+    GLuint tex_handle;
   } __attribute__((aligned(16)));
 
   AssetManager& m_asset_manager;
