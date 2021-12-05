@@ -27,7 +27,7 @@ void Level::build() {
 
   auto *ent{this->m_world->create()};
   ent->assign<MeshComponent>(MeshComponent{"sponza"});
-  ent->assign<MaterialComponent>(MaterialComponent{"unlit"});
+  ent->assign<MaterialComponent>(MaterialComponent{"gbuffer"});
   ent->assign<TransformComponent>(TransformComponent{Transform{glm::vec3{}, glm::vec3{0.2}}});
 }
 

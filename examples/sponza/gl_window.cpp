@@ -44,6 +44,16 @@ void GLWindow::initializeGL() {
     assets_path + "shaders/unlit.fs.glsl"
   )));
 
+  this->m_asset_manager.add("deferred", ShaderAsset::build(this->createProgramFromFile(
+    assets_path + "shaders/deferred.vs.glsl",
+    assets_path + "shaders/deferred.fs.glsl"
+  )));
+
+  this->m_asset_manager.add("gbuffer", ShaderAsset::build(this->createProgramFromFile(
+    assets_path + "shaders/gbuffer.vs.glsl",
+    assets_path + "shaders/gbuffer.fs.glsl"
+  )));
+
   // Textures
   std::vector<std::pair<std::string, std::string>> textures{
     { "textures/lion.tga", "textures/lion.png" },
@@ -80,7 +90,10 @@ void GLWindow::initializeGL() {
   }
 
   // Mesh Renderer system
+  const auto window_settings = this->getWindowSettings();
   this->m_mesh_renderer = std::make_shared<MeshRenderer>(MeshRenderer{
+    (unsigned int) window_settings.width,
+    (unsigned int) window_settings.height,
     this->m_asset_manager,
     this->m_camera,
     this->m_proj_matrix

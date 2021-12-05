@@ -13,6 +13,7 @@ set(sponza_sources
   rendering/transform.cpp
   rendering/camera.cpp
   rendering/material.cpp
+  rendering/render_target.cpp
   level/level.cpp
   systems/mesh_renderer.cpp
   systems/camera_system.cpp
