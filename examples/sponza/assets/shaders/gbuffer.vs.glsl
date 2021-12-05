@@ -16,7 +16,7 @@ void main() {
   mat4 mvp = _projection_matrix * _view_matrix * _model_matrix;
   vec4 ndc_position = mvp * vec4(in_position, 1.0);
 
-  out_position = ndc_position.xyz;
+  out_position = in_position;
   out_normal = in_normal;
   out_tex_coord = in_tex_coord;
 

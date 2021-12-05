@@ -1,7 +1,10 @@
 #include "camera_system.hpp"
 
+#include <fmt/format.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 #include "../components/camera_controller_component.hpp"
 
@@ -61,6 +64,10 @@ void CameraSystem::tick(ECS::World *world, float dt) {
       auto v_prime{glm::rotate(v, -dt * this->m_rotation_speed, right)};
       cam->center = cam->eye + v_prime;
       cam->should_update = true;
+    }
+
+    if (this->m_input.is_pressed(InputNames::PRINT_CURRENT_POSITION)) {
+      fmt::print("Current camera position: {}\n", glm::to_string(cam->center));
     }
 
     if (cam->should_update) {

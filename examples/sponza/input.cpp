@@ -22,6 +22,8 @@ const std::map<SDL_Keycode, InputNames> Input::m_input_map{
 
   { SDLK_UP, PITCH_DOWN },
   { SDLK_DOWN, PITCH_UP },
+
+  { SDLK_p, PRINT_CURRENT_POSITION },
 };
 
 bool Input::is_pressed(InputNames input) const {

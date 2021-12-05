@@ -19,11 +19,8 @@ void main() {
   vec3 normal = texture(_normals_texture, out_tex_coord).xyz;
   vec3 position = texture(_positions_texture, out_tex_coord).xyz;
 
-  vec3 ld = normalize(light_position - position);
+  vec3 ld = light_position - position;
 
-  float coeff = clamp(dot(normal, ld), 0, 1);
-  vec3 diffuse_term = coeff * diffuse_color;
-  vec3 phong = diffuse_term + ambient_light;
-
-  frag_color = vec4(phong, 1.0);
+  vec3 diffuse_component = 
+  frag_color = vec4(ambient_light + diffuse_color * dot(normal, ld), 1.0);
 }

@@ -14,6 +14,7 @@ enum InputNames : size_t {
   YAW_CW,
   PITCH_UP,
   PITCH_DOWN,
+  PRINT_CURRENT_POSITION,
   TOTAL_INPUT_NAMES, // not an actual input, just used as a size
 };
 
