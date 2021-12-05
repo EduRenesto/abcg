@@ -265,6 +265,8 @@ void MeshRenderer::lightning_pass() {
   // Also it's a cool way to flex my OpenGL skills. xD
   //
   // Isso merece um 9.5 ao menos, né professor? ;D
+  //
+  // TODO usar um UBO, pq isso tá MUITO lerdo!
 
   // Reset the draw framebuffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);

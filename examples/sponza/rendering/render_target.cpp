@@ -58,11 +58,11 @@ RenderTarget::RenderTarget(
     glTexImage2D(
       GL_TEXTURE_2D,
       0,
-      GL_DEPTH_COMPONENT,
+      GL_DEPTH_COMPONENT32F,
       width,
       height,
       0,
-      GL_DEPTH_COMPONENT,
+      GL_DEPTH_COMPONENT32F,
       GL_FLOAT,
       nullptr
     );
@@ -79,7 +79,7 @@ RenderTarget::RenderTarget(
   } else {
     glGenRenderbuffers(1, &this->m_depth_attachment);
     glBindRenderbuffer(GL_RENDERBUFFER, this->m_depth_attachment);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT32F, width, height);
     glFramebufferRenderbuffer(
       GL_FRAMEBUFFER,
       GL_DEPTH_ATTACHMENT,
