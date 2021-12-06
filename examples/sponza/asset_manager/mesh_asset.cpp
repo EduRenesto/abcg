@@ -33,7 +33,7 @@ const std::vector<Mesh>& MeshAsset::get() {
 
   materials.reserve(src_materials.size());
   for (const auto& material : src_materials) {
-    fmt::print("name = {}, diffuse_texname = {}\n", material.name, material.diffuse_texname);
+    //fmt::print("name = {}, diffuse_texname = {}\n", material.name, material.diffuse_texname);
     if (material.diffuse_texname.empty()) {
       materials.push_back(Material{"textures/default"});
     } else {
@@ -41,7 +41,7 @@ const std::vector<Mesh>& MeshAsset::get() {
     }
   }
 
-  fmt::print("total materials: {}\n", materials.size());
+  //fmt::print("total materials: {}\n", materials.size());
 
   std::vector<Mesh> meshes{};
 

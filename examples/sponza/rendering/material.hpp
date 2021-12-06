@@ -9,9 +9,7 @@
 
 class Material {
 public:
-  explicit Material(std::string tex_name) : m_texture_name(tex_name) {
-    fmt::print("Material({})\n", tex_name);
-  }
+  explicit Material(std::string tex_name) : m_texture_name(tex_name) {}
 
   [[nodiscard]]
   const std::string& get_texture_name() const noexcept;

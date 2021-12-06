@@ -8,13 +8,34 @@ RenderTarget::RenderTarget(
   unsigned int height,
   bool use_depth_texture,
   std::vector<std::pair<GLuint, GLuint>> color_attachment_formats
-) {
-  fmt::print("RenderTarget::RenderTarget({}, {})\n", width, height);
+) : m_use_depth_texture(use_depth_texture), m_color_attachment_formats(color_attachment_formats) {
+  this->resize(width, height);
+}
 
+GLuint RenderTarget::get_color_attachment(unsigned int idx) const {
+  return this->m_textures[idx];
+}
+
+GLuint RenderTarget::get_depth_attachment() const {
+  return this->m_depth_attachment;
+}
+
+void RenderTarget::use() const {
+  glBindFramebuffer(GL_FRAMEBUFFER, this->m_handle);
+
+  auto status{glCheckFramebufferStatus(GL_FRAMEBUFFER)};
+
+  if (status != GL_FRAMEBUFFER_COMPLETE) {
+    throw abcg::Exception{abcg::Exception::Runtime("Tried to use an incomplete framebuffer")};
+  }
+}
+
+void RenderTarget::resize(unsigned int width, unsigned int height) {
+  fmt::print("RenderTarget::resize({}, {})\n", width, height);
   glGenFramebuffers(1, &this->m_handle);
   glBindFramebuffer(GL_FRAMEBUFFER, this->m_handle);
 
-  unsigned int total_color_attachments = color_attachment_formats.size();
+  unsigned int total_color_attachments = this->m_color_attachment_formats.size();
 
   this->m_textures.resize(total_color_attachments);
 
@@ -23,7 +44,7 @@ RenderTarget::RenderTarget(
   glGenTextures(total_color_attachments, this->m_textures.data());
 
   for (unsigned int i = 0; i < total_color_attachments; i++) {
-    auto formats{color_attachment_formats[i]};
+    auto formats{this->m_color_attachment_formats[i]};
     glBindTexture(GL_TEXTURE_2D, this->m_textures[i]);
     glTexImage2D(
       GL_TEXTURE_2D,
@@ -52,7 +73,7 @@ RenderTarget::RenderTarget(
 
   glDrawBuffers(draw_buffers.size(), draw_buffers.data());
 
-  if (use_depth_texture) {
+  if (this->m_use_depth_texture) {
     glGenTextures(1, &this->m_depth_attachment);
     glBindTexture(GL_TEXTURE_2D, this->m_depth_attachment);
     glTexImage2D(
@@ -91,20 +112,14 @@ RenderTarget::RenderTarget(
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-GLuint RenderTarget::get_color_attachment(unsigned int idx) const {
-  return this->m_textures[idx];
-}
+void RenderTarget::destroy() {
+  glDeleteTextures(this->m_textures.size(), this->m_textures.data());
 
-GLuint RenderTarget::get_depth_attachment() const {
-  return this->m_depth_attachment;
-}
-
-void RenderTarget::use() const {
-  glBindFramebuffer(GL_FRAMEBUFFER, this->m_handle);
-
-  auto status{glCheckFramebufferStatus(GL_FRAMEBUFFER)};
-
-  if (status != GL_FRAMEBUFFER_COMPLETE) {
-    throw abcg::Exception{abcg::Exception::Runtime("Tried to use an incomplete framebuffer")};
+  if (this->m_use_depth_texture) {
+    glDeleteTextures(1, &this->m_depth_attachment);
+  } else {
+    glDeleteRenderbuffers(1, &this->m_depth_attachment);
   }
+
+  glDeleteFramebuffers(1, &this->m_handle);
 }

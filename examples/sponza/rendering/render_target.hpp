@@ -30,12 +30,20 @@ public:
 
   void use() const;
 
+  void resize(unsigned int width, unsigned int height);
+
+  void destroy();
+
 private:
   GLuint m_handle{};
 
   std::vector<GLuint> m_textures{};
 
   GLuint m_depth_attachment{};
+
+  bool m_use_depth_texture;
+
+  std::vector<std::pair<GLuint, GLuint>> m_color_attachment_formats;
 };
 
 #endif

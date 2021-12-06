@@ -13,7 +13,9 @@
 #include "../asset_manager/shader_asset.hpp"
 #include "../asset_manager/texture_asset.hpp"
 
-void MeshRenderer::configure(ECS::World *_world) {
+void MeshRenderer::configure(ECS::World *world) {
+  world->subscribe<ResizeWindowEvent>(this);
+
   // Build the fullscreen quad VAO
   glGenVertexArrays(1, &this->m_quad_vao);
   glBindVertexArray(this->m_quad_vao);
@@ -299,4 +301,9 @@ void MeshRenderer::lightning_pass() {
   // Draw fullscreen quad
   glBindVertexArray(this->m_quad_vao);
   glDrawArrays(GL_TRIANGLES, 0, 6);
+}
+
+void MeshRenderer::receive(class ECS::World *_world, const ResizeWindowEvent& event) {
+  fmt::print("MeshRenderer::receive<ResizeWindowEvent>({}, {})\n", event.width, event.height);
+  this->m_gbuffer.resize(event.width, event.height);
 }

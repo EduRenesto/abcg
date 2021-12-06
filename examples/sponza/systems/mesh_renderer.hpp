@@ -13,8 +13,9 @@
 #include "../rendering/render_target.hpp"
 #include "../asset_manager/asset_manager.hpp"
 #include "../asset_manager/mesh_asset.hpp"
+#include "../events/resize_window_event.hpp"
 
-class MeshRenderer : public ECS::EntitySystem {
+class MeshRenderer : public ECS::EntitySystem, public ECS::EventSubscriber<ResizeWindowEvent> {
 public:
   explicit MeshRenderer(
     unsigned int width,
@@ -75,6 +76,9 @@ private:
     Transform& transform
   );
   void lightning_pass();
+
+  /* Event handling */
+   void receive(class ECS::World *world, const ResizeWindowEvent& event) override;
 };
 
 #endif

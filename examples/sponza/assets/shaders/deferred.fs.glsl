@@ -21,7 +21,7 @@ void main() {
 
   vec3 ld = normalize(light_position - position);
 
-  float coeff = clamp(dot(normal, ld), 0, 1);
+  float coeff = clamp(dot(normal, ld), 0.0, 1.0);
   vec3 diffuse_term = coeff * diffuse_color;
   vec3 phong = diffuse_term + ambient_light;
 

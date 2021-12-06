@@ -13,6 +13,7 @@
 #include "components/transform_component.hpp"
 #include "level/level.hpp"
 #include "systems/camera_system.hpp"
+#include "events/resize_window_event.hpp"
 
 GLWindow::GLWindow() {
   this->m_world = ECS::World::createWorld();
@@ -139,6 +140,7 @@ void GLWindow::handleEvent(SDL_Event &evt) {
 }
 
 void GLWindow::resizeGL(int width, int height) {
+  fmt::print("GLWindow::resizeGL({}, {})\n", width, height);
   const auto aspect = (double) width / (double) height;
 
   // Rebuild projection matrix
@@ -148,4 +150,6 @@ void GLWindow::resizeGL(int width, int height) {
     0.01,
     1000.0
   );
+
+  this->m_world->emit<ResizeWindowEvent>({ (unsigned int) width, (unsigned int) height });
 }
