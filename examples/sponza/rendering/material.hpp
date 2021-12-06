@@ -9,13 +9,20 @@
 
 class Material {
 public:
-  explicit Material(std::string tex_name) : m_texture_name(tex_name) {}
+  Material(std::string tex_name, float shininess) :
+    m_texture_name(tex_name),
+    m_shininess(shininess) {}
 
   [[nodiscard]]
   const std::string& get_texture_name() const noexcept;
 
+  [[nodiscard]]
+  float get_shininess() const noexcept;
+
 private:
   std::string m_texture_name;
+
+  float m_shininess;
 };
 
 #endif

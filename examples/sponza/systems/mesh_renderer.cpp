@@ -2,6 +2,7 @@
 #include <array>
 
 #include <glm/gtx/string_cast.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <fmt/format.h>
 
 #include "mesh_renderer.hpp"
@@ -199,6 +200,7 @@ std::vector<MeshRenderer::VAOData> MeshRenderer::build_vaos(const std::vector<Me
       vao,
       positions.size(),
       texture_asset->get(),
+      mesh.get_material().get_shininess(),
     };
 
     vaos.push_back(data);
@@ -219,6 +221,8 @@ void MeshRenderer::draw_vaos(std::vector<VAOData>& vaos, GLuint shader, Transfor
 
   const auto texture_loc = glGetUniformLocation(shader, "_diffuse_texture");
   glUniform1i(texture_loc, 0);
+ 
+  const auto shininess_loc = glGetUniformLocation(shader, "_shininess");
 
   glUniformMatrix4fv(model_loc, 1, GL_FALSE, &model_mtx[0][0]);
   glUniformMatrix4fv(view_loc, 1, GL_FALSE, &view_mtx[0][0]);
@@ -229,6 +233,8 @@ void MeshRenderer::draw_vaos(std::vector<VAOData>& vaos, GLuint shader, Transfor
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, vao.tex_handle);
+
+    glUniform1f(shininess_loc, vao.shininess);
 
     glDrawArrays(GL_TRIANGLES, 0, (GLsizei) vao.vertex_count);
   }
@@ -268,8 +274,6 @@ void MeshRenderer::lightning_pass() {
   // Also it's a cool way to flex my OpenGL skills. xD
   //
   // Isso merece um 9.5 ao menos, né professor? ;D
-  //
-  // TODO usar um UBO, pq isso tá MUITO lerdo!
 
   // Reset the draw framebuffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -283,6 +287,7 @@ void MeshRenderer::lightning_pass() {
   auto positions_tex_loc{glGetUniformLocation(shader->get(), "_positions_texture")};
   auto normals_tex_loc{glGetUniformLocation(shader->get(), "_normals_texture")};
   auto diffuse_tex_loc{glGetUniformLocation(shader->get(), "_diffuse_texture")};
+
 
   // World space positions texture
   glActiveTexture(GL_TEXTURE0);
@@ -298,6 +303,10 @@ void MeshRenderer::lightning_pass() {
   glActiveTexture(GL_TEXTURE2);
   glBindTexture(GL_TEXTURE_2D, this->m_gbuffer.get_color_attachment(2));
   glUniform1i(diffuse_tex_loc, 2);
+
+  // Camera position
+  auto camera_pos_loc{glGetUniformLocation(shader->get(), "_camera_pos")};
+  glUniform3fv(camera_pos_loc, 1, glm::value_ptr(this->m_camera->get_center()));
 
   // Draw fullscreen quad
   glBindVertexArray(this->m_quad_vao);

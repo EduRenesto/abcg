@@ -27,3 +27,7 @@ void Camera::set_center(glm::vec3 center) {
   //fmt::print("Camera::set_center({})\n", glm::to_string(center));
   this->m_center = center;
 }
+
+glm::vec3 Camera::get_center() const {
+  return this->m_center;
+}

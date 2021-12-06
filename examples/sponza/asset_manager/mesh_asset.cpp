@@ -33,11 +33,18 @@ const std::vector<Mesh>& MeshAsset::get() {
 
   materials.reserve(src_materials.size());
   for (const auto& material : src_materials) {
-    //fmt::print("name = {}, diffuse_texname = {}\n", material.name, material.diffuse_texname);
+    /*
+    fmt::print(
+	       "name = {}, diffuse_texname = {}, normal_texname = {}, displacement_texname = {}\n",
+	       material.name,
+	       material.diffuse_texname,
+	       material.normal_texname,
+	       material.displacement_texname);
+    */
     if (material.diffuse_texname.empty()) {
-      materials.push_back(Material{"textures/default"});
+      materials.push_back(Material{"textures/default", material.shininess});
     } else {
-      materials.push_back(Material{material.diffuse_texname});
+      materials.push_back(Material{material.diffuse_texname, material.shininess});
     }
   }
 
