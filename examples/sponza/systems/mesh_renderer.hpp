@@ -64,7 +64,7 @@ private:
 
   std::vector<VAOData> get_vaos(std::string& asset_name);
   std::vector<VAOData> build_vaos(const std::vector<Mesh>& meshes);
-  void draw_vao(VAOData vao, GLuint shader, Transform& transform);
+  void draw_vaos(std::vector<VAOData>& vaos, GLuint shader, Transform& transform);
 
   RenderTarget m_gbuffer;
   void resize_gbuffer(unsigned int width, unsigned int height);

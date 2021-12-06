@@ -207,28 +207,31 @@ std::vector<MeshRenderer::VAOData> MeshRenderer::build_vaos(const std::vector<Me
   return vaos;
 }
 
-void MeshRenderer::draw_vao(VAOData vao, GLuint shader, Transform& transform) {
+void MeshRenderer::draw_vaos(std::vector<VAOData>& vaos, GLuint shader, Transform& transform) {
   const auto& model_mtx = transform.build_model_matrix();
   const auto& view_mtx = this->m_camera->build_view_matrix();
 
   glUseProgram(shader);
-  glBindVertexArray(vao.vao);
 
   const auto model_loc = glGetUniformLocation(shader, "_model_matrix");
   const auto view_loc = glGetUniformLocation(shader, "_view_matrix");
   const auto proj_loc = glGetUniformLocation(shader, "_projection_matrix");
 
+  const auto texture_loc = glGetUniformLocation(shader, "_diffuse_texture");
+  glUniform1i(texture_loc, 0);
+
   glUniformMatrix4fv(model_loc, 1, GL_FALSE, &model_mtx[0][0]);
   glUniformMatrix4fv(view_loc, 1, GL_FALSE, &view_mtx[0][0]);
   glUniformMatrix4fv(proj_loc, 1, GL_FALSE, &this->m_projection_matrix[0][0]);
 
-  glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, vao.tex_handle);
+  for (auto& vao : vaos) {
+    glBindVertexArray(vao.vao);
 
-  const auto texture_loc = glGetUniformLocation(shader, "_diffuse_texture");
-  glUniform1i(texture_loc, 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, vao.tex_handle);
 
-  glDrawArrays(GL_TRIANGLES, 0, (GLsizei) vao.vertex_count);
+    glDrawArrays(GL_TRIANGLES, 0, (GLsizei) vao.vertex_count);
+  }
 }
 
 void MeshRenderer::geometry_pass(
@@ -248,9 +251,7 @@ void MeshRenderer::geometry_pass(
   auto vaos{this->get_vaos(mesh_asset_name)};
   auto shader{this->m_asset_manager.get<ShaderAsset>(material_asset_name)};
 
-  for (auto& vao : vaos) {
-    this->draw_vao(vao, shader->get(), transform);
-  }
+  this->draw_vaos(vaos, shader->get(), transform);
 }
 
 void MeshRenderer::lightning_pass() {
