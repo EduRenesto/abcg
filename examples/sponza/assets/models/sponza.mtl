@@ -60,7 +60,8 @@ map_Ka textures/sponza_arch_diff.tga
 map_Disp textures/sponza_arch_ddn.tga
 
 newmtl bricks
-Ns 7.843137
+#Ns 7.843137
+Ns 100.0
 Ka 0.000000 0.000000 0.000000
 Kd 0.470400 0.470400 0.470400
 Ks 0.000000 0.000000 0.000000
@@ -233,7 +234,8 @@ map_Ka textures/sponza_flagpole_diff.tga
 map_Disp textures/sponza_flagpole_ddn.tga
 
 newmtl floor
-Ns 7.843137
+#Ns 7.843137
+Ns 100.0
 Ka 0.000000 0.000000 0.000000
 Kd 0.470400 0.470400 0.470400
 Ks 0.000000 0.000000 0.000000

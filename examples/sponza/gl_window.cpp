@@ -118,7 +118,7 @@ void GLWindow::initializeGL() {
   auto *camera_control{this->m_world->create()};
   camera_control->assign<CameraControllerComponent>(CameraControllerComponent{
     this->m_camera, 
-    glm::vec3{100, 100, 100},
+    glm::vec3{110, 91, 10},
     glm::vec3{0, 0, 0},
     glm::vec3{0.0, 1.0, 0.0},
     true,

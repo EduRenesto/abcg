@@ -21,6 +21,8 @@ private:
 
   float m_translation_speed;
   float m_rotation_speed;
+
+  bool m_print_info{true};
 };
 
 #endif

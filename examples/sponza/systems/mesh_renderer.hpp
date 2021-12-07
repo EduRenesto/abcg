@@ -71,16 +71,12 @@ private:
   RenderTarget m_gbuffer;
   void resize_gbuffer(unsigned int width, unsigned int height);
 
-  std::vector<std::pair<Light, RenderTarget>> m_lights{}; // TODO initialize this
+  std::vector<glm::vec3> m_light_positions{}; // TODO initialize this
 
   /* Render passes */
   void geometry_pass(
     std::string& mesh_asset_name,
     std::string& material_asset_name,
-    Transform& transform
-  );
-  void shadow_pass(
-    std::string& mesh_asset_name,
     Transform& transform
   );
   void lightning_pass();
