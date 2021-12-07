@@ -67,7 +67,10 @@ void CameraSystem::tick(ECS::World *world, float dt) {
     }
 
     if (this->m_input.is_pressed(InputNames::PRINT_CURRENT_POSITION)) {
-      fmt::print("Current camera position: {}\n", glm::to_string(cam->center));
+      fmt::print(
+		 "Current camera position: {} looking towards:{}\n",
+		 glm::to_string(cam->eye),
+		 glm::to_string(cam->center));
     }
 
     if (cam->should_update) {

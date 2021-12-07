@@ -11,6 +11,7 @@
 #include "../rendering/camera.hpp"
 #include "../rendering/transform.hpp"
 #include "../rendering/render_target.hpp"
+#include "../rendering/light.hpp"
 #include "../asset_manager/asset_manager.hpp"
 #include "../asset_manager/mesh_asset.hpp"
 #include "../events/resize_window_event.hpp"
@@ -70,16 +71,22 @@ private:
   RenderTarget m_gbuffer;
   void resize_gbuffer(unsigned int width, unsigned int height);
 
+  std::vector<std::pair<Light, RenderTarget>> m_lights{}; // TODO initialize this
+
   /* Render passes */
   void geometry_pass(
     std::string& mesh_asset_name,
     std::string& material_asset_name,
     Transform& transform
   );
+  void shadow_pass(
+    std::string& mesh_asset_name,
+    Transform& transform
+  );
   void lightning_pass();
 
   /* Event handling */
-   void receive(class ECS::World *world, const ResizeWindowEvent& event) override;
+  void receive(class ECS::World *world, const ResizeWindowEvent& event) override;
 };
 
 #endif

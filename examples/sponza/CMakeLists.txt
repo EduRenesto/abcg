@@ -14,6 +14,7 @@ set(sponza_sources
   rendering/camera.cpp
   rendering/material.cpp
   rendering/render_target.cpp
+  rendering/light.cpp
   level/level.cpp
   systems/mesh_renderer.cpp
   systems/camera_system.cpp

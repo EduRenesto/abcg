@@ -1,6 +1,8 @@
 #include "render_target.hpp"
 #include "abcg_exception.hpp"
+#include "core.h"
 
+#include <GL/glu.h>
 #include <fmt/format.h>
 
 RenderTarget::RenderTarget(
@@ -26,7 +28,8 @@ void RenderTarget::use() const {
   auto status{glCheckFramebufferStatus(GL_FRAMEBUFFER)};
 
   if (status != GL_FRAMEBUFFER_COMPLETE) {
-    throw abcg::Exception{abcg::Exception::Runtime("Tried to use an incomplete framebuffer")};
+    auto message{fmt::format("Tried to use an incomplete framebuffer: {}", status)};
+    throw abcg::Exception{abcg::Exception::Runtime(message)};
   }
 }
 
@@ -71,24 +74,22 @@ void RenderTarget::resize(unsigned int width, unsigned int height) {
     draw_buffers.push_back(GL_COLOR_ATTACHMENT0 + i);
   }
 
-  glDrawBuffers(draw_buffers.size(), draw_buffers.data());
-
   if (this->m_use_depth_texture) {
     glGenTextures(1, &this->m_depth_attachment);
     glBindTexture(GL_TEXTURE_2D, this->m_depth_attachment);
     glTexImage2D(
       GL_TEXTURE_2D,
       0,
-      GL_DEPTH_COMPONENT32F,
+      GL_DEPTH_COMPONENT,
       width,
       height,
       0,
-      GL_DEPTH_COMPONENT32F,
+      GL_DEPTH_COMPONENT,
       GL_FLOAT,
       nullptr
     );
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     glFramebufferTexture2D(
       GL_FRAMEBUFFER,
@@ -108,6 +109,15 @@ void RenderTarget::resize(unsigned int width, unsigned int height) {
       this->m_depth_attachment
     );
   }
+
+  if (draw_buffers.empty()) {
+    glDrawBuffer(GL_NONE);
+    glReadBuffer(GL_NONE);
+  } else {
+    glDrawBuffers(draw_buffers.size(), draw_buffers.data());
+  }
+
+  glViewport(0, 0, width, height);
 
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

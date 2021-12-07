@@ -55,6 +55,11 @@ void GLWindow::initializeGL() {
     assets_path + "shaders/gbuffer.fs.glsl"
   )));
 
+  this->m_asset_manager.add("shadow", ShaderAsset::build(this->createProgramFromFile(
+    assets_path + "shaders/shadow.vs.glsl",
+    assets_path + "shaders/shadow.fs.glsl"
+  )));
+
   // Textures
   std::vector<std::pair<std::string, std::string>> textures{
     { "textures/lion.tga", "textures/lion.png" },
@@ -147,8 +152,10 @@ void GLWindow::resizeGL(int width, int height) {
   this->m_proj_matrix = glm::perspective(
     M_PI / 3.0,
     aspect,
-    0.01,
-    1000.0
+    //0.01,
+    //1000.0
+    1.0,
+    750.0
   );
 
   this->m_world->emit<ResizeWindowEvent>({ (unsigned int) width, (unsigned int) height });

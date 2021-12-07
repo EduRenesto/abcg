@@ -64,6 +64,14 @@ void MeshRenderer::configure(ECS::World *world) {
   this->m_vbos.push_back(quad_vbos[1]);
 
   glBindVertexArray(0);
+
+  // TODO move this somewhere else!
+  this->m_lights.push_back(std::pair{
+      //Light{glm::vec3{78.0, 120.0, -10.0}, glm::vec3{1.0, 0.0, 0.0}},
+      //Light{glm::vec3{252.0, 120.0, -6.0}, glm::vec3{80.0, 127.0, -7.0}},
+      Light{glm::vec3{154.0, 185.0, -6.0}, glm::vec3{15.0, 82.0, -12.0}},
+      RenderTarget{1024, 1024, true, std::vector<std::pair<GLuint, GLuint>>{}}
+  });
 }
 
 void MeshRenderer::unconfigure(ECS::World *world) {
@@ -72,7 +80,7 @@ void MeshRenderer::unconfigure(ECS::World *world) {
     auto vaos_data{this->m_vaos.end()};
 
     for (auto& vao_data : vaos_data->second) {
-	glDeleteVertexArrays(1, &vao_data.vao);
+      glDeleteVertexArrays(1, &vao_data.vao);
     }
     this->m_vaos.erase(vaos_data);
   }
@@ -109,8 +117,19 @@ void MeshRenderer::tick(ECS::World *world, float dt) {
       mesh->asset_name,
       material->asset_name,
       transform->transform
-    ); // TODO Parei aqui
+    );
+
+    // We also do a shadow pass.
+    // Basically, we render the whole scene by the point of view
+    // of each primary light source. Then, we use its depth
+    // map to build some cool shadows in the final pass.
+    //
+    // This will break if there is more than one renderable
+    // entity in the world. I won't fix it because this project
+    // is due tomorrow and I just want it to work!!!! :sob:
+    this->shadow_pass(mesh->asset_name, transform->transform);
   });
+
 
   // After the G-Buffer has been populate, we run the lightning
   // pass, drawing into the fullscreen quad.
@@ -260,6 +279,45 @@ void MeshRenderer::geometry_pass(
   this->draw_vaos(vaos, shader->get(), transform);
 }
 
+void MeshRenderer::shadow_pass(
+    std::string& mesh_asset_name,
+    Transform& transform
+) {
+  // In this pass, the shadow map is built.
+  // We render the whole scene from the perspective of each light,
+  // and then use the resulting depth buffer to calculate shadows
+  // in the final lightning pass.
+
+  auto vaos{this->get_vaos(mesh_asset_name)};
+  auto shader{this->m_asset_manager.get<ShaderAsset>("shadow")->get()};
+
+  glCullFace(GL_FRONT);
+  glUseProgram(shader);
+
+  auto model_mtx{transform.build_model_matrix()};
+  const auto model_loc = glGetUniformLocation(shader, "_model_matrix");
+  glUniformMatrix4fv(model_loc, 1, GL_FALSE, &model_mtx[0][0]);
+
+  for (auto& light : this->m_lights) {
+    // Use the light render target
+    light.second.use();
+    glClear(GL_DEPTH_BUFFER_BIT);
+
+    // Draw the VAOs into the render target using the shadow ("noop")
+    // shader
+    const auto light_loc = glGetUniformLocation(shader, "_light_matrix");
+
+    glUniformMatrix4fv(light_loc, 1, GL_FALSE, &light.first.get_matrix()[0][0]);
+
+    for (auto& vao : vaos) {
+      glBindVertexArray(vao.vao);
+      glDrawArrays(GL_TRIANGLES, 0, (GLsizei) vao.vertex_count);
+    }
+  }
+
+  glCullFace(GL_BACK);
+}
+
 void MeshRenderer::lightning_pass() {
   // In this pass, the only thing that's actually drawn is the
   // fullscreen quad. The deferred fragment shader will take as inputs
@@ -287,7 +345,7 @@ void MeshRenderer::lightning_pass() {
   auto positions_tex_loc{glGetUniformLocation(shader->get(), "_positions_texture")};
   auto normals_tex_loc{glGetUniformLocation(shader->get(), "_normals_texture")};
   auto diffuse_tex_loc{glGetUniformLocation(shader->get(), "_diffuse_texture")};
-
+  auto shadow_tex_loc{glGetUniformLocation(shader->get(), "_shadow_texture")};
 
   // World space positions texture
   glActiveTexture(GL_TEXTURE0);
@@ -304,9 +362,18 @@ void MeshRenderer::lightning_pass() {
   glBindTexture(GL_TEXTURE_2D, this->m_gbuffer.get_color_attachment(2));
   glUniform1i(diffuse_tex_loc, 2);
 
+  // Shadow map
+  glActiveTexture(GL_TEXTURE3);
+  glBindTexture(GL_TEXTURE_2D, this->m_lights[0].second.get_depth_attachment()); // HACK HACK
+  glUniform1i(shadow_tex_loc, 3);
+
   // Camera position
   auto camera_pos_loc{glGetUniformLocation(shader->get(), "_camera_pos")};
   glUniform3fv(camera_pos_loc, 1, glm::value_ptr(this->m_camera->get_center()));
+
+  // Light matrix
+  auto light_mtx_loc{glGetUniformLocation(shader->get(), "_light_matrix")};
+  glUniformMatrix4fv(light_mtx_loc, 1, GL_FALSE, &this->m_lights[0].first.get_matrix()[0][0]);
 
   // Draw fullscreen quad
   glBindVertexArray(this->m_quad_vao);
