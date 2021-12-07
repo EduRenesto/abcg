@@ -127,7 +127,7 @@ void MeshRenderer::tick(ECS::World *world, float dt) {
     // This will break if there is more than one renderable
     // entity in the world. I won't fix it because this project
     // is due tomorrow and I just want it to work!!!! :sob:
-    this->shadow_pass(mesh->asset_name, transform->transform);
+    //this->shadow_pass(mesh->asset_name, transform->transform);
   });
 
 
