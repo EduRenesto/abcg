@@ -27,14 +27,15 @@ void RenderTarget::use() const {
 
   auto status{glCheckFramebufferStatus(GL_FRAMEBUFFER)};
 
+#ifndef NDEBUG
   if (status != GL_FRAMEBUFFER_COMPLETE) {
     auto message{fmt::format("Tried to use an incomplete framebuffer: {}", status)};
     throw abcg::Exception{abcg::Exception::Runtime(message)};
   }
+#endif
 }
 
 void RenderTarget::resize(unsigned int width, unsigned int height) {
-  fmt::print("RenderTarget::resize({}, {})\n", width, height);
   glGenFramebuffers(1, &this->m_handle);
   glBindFramebuffer(GL_FRAMEBUFFER, this->m_handle);
 

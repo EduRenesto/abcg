@@ -145,15 +145,12 @@ void GLWindow::handleEvent(SDL_Event &evt) {
 }
 
 void GLWindow::resizeGL(int width, int height) {
-  fmt::print("GLWindow::resizeGL({}, {})\n", width, height);
   const auto aspect = (double) width / (double) height;
 
   // Rebuild projection matrix
   this->m_proj_matrix = glm::perspective(
     M_PI / 3.0,
     aspect,
-    //0.01,
-    //1000.0
     1.0,
     750.0
   );

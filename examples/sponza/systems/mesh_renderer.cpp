@@ -65,14 +65,7 @@ void MeshRenderer::configure(ECS::World *world) {
 
   glBindVertexArray(0);
 
-  // TODO move this somewhere else!
-  //this->m_lights.push_back(std::pair{
-  //    //Light{glm::vec3{78.0, 120.0, -10.0}, glm::vec3{1.0, 0.0, 0.0}},
-  //    //Light{glm::vec3{252.0, 120.0, -6.0}, glm::vec3{80.0, 127.0, -7.0}},
-  //    Light{glm::vec3{154.0, 185.0, -6.0}, glm::vec3{15.0, 82.0, -12.0}},
-  //    RenderTarget{1024, 1024, true, std::vector<std::pair<GLuint, GLuint>>{}}
-  //});
-
+  // This could be somewhere else.
   this->m_light_positions.push_back(glm::vec3(-122.621719, 32.353237, 27.267761));
   this->m_light_positions.push_back(glm::vec3(-123.187912, 29.676449, -42.522171));
   this->m_light_positions.push_back(glm::vec3(98.224022, 28.120073, -43.400883));
@@ -86,12 +79,13 @@ void MeshRenderer::configure(ECS::World *world) {
 }
 
 void MeshRenderer::unconfigure(ECS::World *world) {
-  // Destroy VAOs
+  // Destroy VAOs and textures
   while (!this->m_vaos.empty()) {
     auto vaos_data{this->m_vaos.end()};
 
     for (auto& vao_data : vaos_data->second) {
       glDeleteVertexArrays(1, &vao_data.vao);
+      glDeleteTextures(1, &vao_data.tex_handle);
     }
     this->m_vaos.erase(vaos_data);
   }
@@ -112,7 +106,8 @@ void MeshRenderer::unconfigure(ECS::World *world) {
     glDeleteProgram(shader->get());
   });
 
-  // TODO destroy textures
+  // Destroy render targets
+  this->m_gbuffer.destroy();
 }
 
 void MeshRenderer::tick(ECS::World *world, float dt) {
@@ -129,19 +124,9 @@ void MeshRenderer::tick(ECS::World *world, float dt) {
       material->asset_name,
       transform->transform
     );
-
-    // We also do a shadow pass.
-    // Basically, we render the whole scene by the point of view
-    // of each primary light source. Then, we use its depth
-    // map to build some cool shadows in the final pass.
-    //
-    // This will break if there is more than one renderable
-    // entity in the world. I won't fix it because this project
-    // is due tomorrow and I just want it to work!!!! :sob:
-    //this->shadow_pass(mesh->asset_name, transform->transform);
   });
 
-  // After the G-Buffer has been populate, we run the lightning
+  // After the G-Buffer has been populated, we run the lightning
   // pass, drawing into the fullscreen quad.
   // Notice that the geometry pass runs over all the renderable
   // entities in the world, but the lightning pass runs only once.
@@ -289,47 +274,6 @@ void MeshRenderer::geometry_pass(
   this->draw_vaos(vaos, shader->get(), transform);
 }
 
-/*
-void MeshRenderer::shadow_pass(
-    std::string& mesh_asset_name,
-    Transform& transform
-) {
-  // In this pass, the shadow map is built.
-  // We render the whole scene from the perspective of each light,
-  // and then use the resulting depth buffer to calculate shadows
-  // in the final lightning pass.
-
-  auto vaos{this->get_vaos(mesh_asset_name)};
-  auto shader{this->m_asset_manager.get<ShaderAsset>("shadow")->get()};
-
-  glCullFace(GL_FRONT);
-  glUseProgram(shader);
-
-  auto model_mtx{transform.build_model_matrix()};
-  const auto model_loc = glGetUniformLocation(shader, "_model_matrix");
-  glUniformMatrix4fv(model_loc, 1, GL_FALSE, &model_mtx[0][0]);
-
-  for (auto& light : this->m_lights) {
-    // Use the light render target
-    light.second.use();
-    glClear(GL_DEPTH_BUFFER_BIT);
-
-    // Draw the VAOs into the render target using the shadow ("noop")
-    // shader
-    const auto light_loc = glGetUniformLocation(shader, "_light_matrix");
-
-    glUniformMatrix4fv(light_loc, 1, GL_FALSE, &light.first.get_matrix()[0][0]);
-
-    for (auto& vao : vaos) {
-      glBindVertexArray(vao.vao);
-      glDrawArrays(GL_TRIANGLES, 0, (GLsizei) vao.vertex_count);
-    }
-  }
-
-  glCullFace(GL_BACK);
-}
-*/
-
 void MeshRenderer::lightning_pass() {
   // In this pass, the only thing that's actually drawn is the
   // fullscreen quad. The deferred fragment shader will take as inputs
@@ -393,6 +337,5 @@ void MeshRenderer::lightning_pass() {
 }
 
 void MeshRenderer::receive(class ECS::World *_world, const ResizeWindowEvent& event) {
-  fmt::print("MeshRenderer::receive<ResizeWindowEvent>({}, {})\n", event.width, event.height);
   this->m_gbuffer.resize(event.width, event.height);
 }

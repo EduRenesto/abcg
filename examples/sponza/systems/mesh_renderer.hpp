@@ -71,7 +71,7 @@ private:
   RenderTarget m_gbuffer;
   void resize_gbuffer(unsigned int width, unsigned int height);
 
-  std::vector<glm::vec3> m_light_positions{}; // TODO initialize this
+  std::vector<glm::vec3> m_light_positions{};
 
   /* Render passes */
   void geometry_pass(
