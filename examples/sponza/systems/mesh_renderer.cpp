@@ -377,7 +377,7 @@ void MeshRenderer::lightning_pass() {
   auto total_lights_loc{glGetUniformLocation(shader->get(), "_total_lights")};
   auto light_positions_loc{glGetUniformLocation(shader->get(), "_light_positions")};
 
-  glUniform1ui(total_lights_loc, this->m_light_positions.size());
+  glUniform1i(total_lights_loc, this->m_light_positions.size());
   glUniform3fv(
 	       light_positions_loc,
 	       this->m_light_positions.size(),

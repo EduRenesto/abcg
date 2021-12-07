@@ -110,12 +110,7 @@ void RenderTarget::resize(unsigned int width, unsigned int height) {
     );
   }
 
-  if (draw_buffers.empty()) {
-    glDrawBuffer(GL_NONE);
-    glReadBuffer(GL_NONE);
-  } else {
-    glDrawBuffers(draw_buffers.size(), draw_buffers.data());
-  }
+  glDrawBuffers(draw_buffers.size(), draw_buffers.data());
 
   glViewport(0, 0, width, height);
 
