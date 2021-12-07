@@ -109,8 +109,8 @@ void GLWindow::initializeGL() {
   // Camera controller system
   this->m_cam_ctrl = std::make_shared<CameraSystem>(CameraSystem{
       this->m_input,
-      15.0f,
-      0.5f,
+      30.0f,
+      0.7f,
   });
   this->m_world->registerSystem(this->m_cam_ctrl.get());
 

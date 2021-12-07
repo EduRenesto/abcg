@@ -79,6 +79,10 @@ void MeshRenderer::configure(ECS::World *world) {
   this->m_light_positions.push_back(glm::vec3(96.937462, 28.225088, 29.528467));
   this->m_light_positions.push_back(glm::vec3(-13.077188, 190.405502, 33.555908));
   this->m_light_positions.push_back(glm::vec3(-11.664579, 195.078903, -49.278675));
+  this->m_light_positions.push_back(glm::vec3(220.0, 32.0, 80.0));
+  this->m_light_positions.push_back(glm::vec3(-240.0, 32.0, 80.0));
+  this->m_light_positions.push_back(glm::vec3(-240.0, 32.0, -80.0));
+  this->m_light_positions.push_back(glm::vec3(220.0, 32.0, -80.0));
 }
 
 void MeshRenderer::unconfigure(ECS::World *world) {
